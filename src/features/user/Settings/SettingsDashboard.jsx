@@ -8,15 +8,15 @@ import PhotosPage from "./PhotosPage";
 import AccountPage from "./AccountPage";
 
 const SettingsDashboard = () => {
-    return(
+    return (
         <Grid>
             <Grid.Column width={12}>
                 <Switch>
                     <Redirect exact from='/settings' to='/settings/basic'/>
-                    <Route path='/settings/basic' component={BasicPage} />
-                    <Route path='/settings/about' component={AboutePage} />
-                    <Route path='/settings/photos' component={PhotosPage} />
-                    <Route path='/settings/account' component={AccountPage} />
+                    <Route path='/settings/basic' component={BasicPage}/>
+                    <Route path='/settings/about' component={AboutePage}/>
+                    <Route path='/settings/photos' component={PhotosPage}/>
+                    <Route path='/settings/account' component={AccountPage}/>
                 </Switch>
             </Grid.Column>
             <Grid.Column width={4}>
