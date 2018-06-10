@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {reduxForm, Field} from 'redux-form';
+import moment from 'moment';
 import {composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate'
 import {Form, Segment, Button, Grid, Header} from "semantic-ui-react";
 import {createEvent, updateEvent} from "../EventActions";
 import TextInput from "../../../app/common/form/TextInput";
 import TextArea from "../../../app/common/form/TextArea";
 import SelectInput from "../../../app/common/form/SelectInput";
+import DateInput from "../../../app/common/form/DateInput";
 import cuid from 'cuid';
 
 const mapState = (state, ownProps) => {
@@ -44,13 +46,15 @@ const validate = combineValidators({
         isRequired({message: 'Please provide a description'}),
         hasLengthGreaterThan(4)({message: 'Description needs to be at least 5 characters long'})
     )(),
-    city: isRequired('city'),
-    venue: isRequired('venue')
+    city: isRequired('City'),
+    venue: isRequired('Venue'),
+    date: isRequired('Date')
 });
 
 class EventForm extends Component {
 
     onFormSubmit = values => {
+        values.date = moment(values.date).format();
         if (this.props.initialValues.id) {
             this.props.updateEvent(values);
             this.props.history.goBack();
@@ -109,9 +113,12 @@ class EventForm extends Component {
                             />
                             <Field
                                 name='date'
-                                type='text'
-                                component={TextInput}
-                                placeholder='Event date'
+                                type='date'
+                                dateFormat='YYYY-MM-DD HH:mm'
+                                timeFormat='HH:mm'
+                                showTimeSelect
+                                component={DateInput}
+                                placeholder='Date and time of event'
                             />
 
                             <Button disabled={invalid || submitting || pristine} positive type="submit">
