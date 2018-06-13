@@ -8,7 +8,7 @@ import PlacesAutocomplete, {
     getLatLng
 } from 'react-places-autocomplete';
 import {openModal} from "../modals/ModalActions";
-// import { incrementCounter, decrementCounter } from './testActions';
+import {incrementCounter, decrementCounter} from "./testAction";
 
 
 const mapState = state => ({
@@ -16,8 +16,8 @@ const mapState = state => ({
 });
 
 const actions = {
-    // incrementCounter,
-    // decrementCounter,
+    incrementCounter,
+    decrementCounter,
     openModal
 };
 
@@ -68,8 +68,8 @@ class TestComponent extends Component {
         /> */}
                 <h1>Test Area</h1>
                 <h3>The answer is: {data}</h3>
-                {/*<Button onClick={incrementCounter} color="green" content="Increment" />*/}
-                {/*<Button onClick={decrementCounter} color="red" content="Decrement" />*/}
+                <Button onClick={incrementCounter} color="green" content="Increment" />
+                <Button onClick={decrementCounter} color="red" content="Decrement" />
                 <Button
                     onClick={() => openModal('TestModal', {data: 42})}
                     color="teal"

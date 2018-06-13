@@ -114,3 +114,7 @@ body {
 /*.ui.modal {*/
     /*margin-top: 0;*/
 /*}*/
+
+.ui.segments {
+    margin-bottom: 25px!important;
+}
