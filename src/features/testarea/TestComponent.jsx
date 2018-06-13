@@ -62,10 +62,10 @@ class TestComponent extends Component {
         const { incrementCounter, decrementCounter, data, openModal } = this.props;
         return (
             <div>
-                {/* <Script
+                <Script
           url="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTN8X_q_xtMYCnacteF4ZQj0RKXodI080&libraries=places"
           onLoad={this.handleScriptLoad}
-        /> */}
+        />
                 <h1>Test Area</h1>
                 <h3>The answer is: {data}</h3>
                 <Button onClick={incrementCounter} color="green" content="Increment" />

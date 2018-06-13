@@ -1,3 +1,6 @@
+// Snippets directly import from react router for location the page to the top
+// after loading a new page
+
 import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 class ScrollToTop extends Component {

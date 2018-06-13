@@ -1,6 +1,9 @@
 import {createReducer} from "../../app/common/util/reducerUtil";
 import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT} from "./EventConstant";
 
+
+// Mock of datas
+
 const initialState = [
     {
         id: '1',
@@ -81,6 +84,7 @@ export const deleteEvent = (state, payload) => {
 };
 
 // createReducer from app/common/util/reducerUtil.js
+// Avoids using long and verbose switch statement
 
 export default createReducer(initialState, {
     [CREATE_EVENT]: createEvent,

@@ -1,3 +1,5 @@
+// Actions creators
+
 import {LOGIN_USER, SIGN_OUT_USER} from "./authConstants";
 
 export const login = (creds) => {
@@ -7,10 +9,10 @@ export const login = (creds) => {
             creds
         }
     }
-}
+};
 
 export const logout = () => {
     return {
         type: SIGN_OUT_USER
     }
-}
+};
