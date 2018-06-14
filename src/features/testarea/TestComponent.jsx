@@ -12,7 +12,8 @@ import {incrementAsync, decrementAsync} from "./testAction";
 
 
 const mapState = state => ({
-    data: state.test.data
+    data: state.test.data,
+    loading: state.test.loading
 });
 
 const actions = {
@@ -59,7 +60,7 @@ class TestComponent extends Component {
             onChange: this.onChange
         };
 
-        const { incrementAsync, decrementAsync, data, openModal } = this.props;
+        const { incrementAsync, decrementAsync, data, openModal, loading } = this.props;
         return (
             <div>
                 {/*<Script
@@ -68,8 +69,8 @@ class TestComponent extends Component {
         />*/}
                 <h1>Test Area</h1>
                 <h3>The answer is: {data}</h3>
-                <Button onClick={incrementAsync} color="green" content="Increment" />
-                <Button onClick={decrementAsync} color="red" content="Decrement" />
+                <Button loading={loading} onClick={incrementAsync} color="green" content="Increment" />
+                <Button loading={loading} onClick={decrementAsync} color="red" content="Decrement" />
                 <Button
                     onClick={() => openModal('TestModal', {data: 42})}
                     color="teal"
