@@ -1,11 +1,20 @@
 // Actions Creators
 
-import {CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT} from "./EventConstant";
+import {CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT, FETCH_EVENTS} from "./EventConstant";
+import {asyncActionStart, asyncActionFinish, asyncActionError} from "../async/asyncActions";
+import {fetchSampleData} from "../../app/data/mockApi";
+
+export const fecthEvents = (events) => {
+    return {
+        type: FETCH_EVENTS,
+        payload: events
+    }
+};
 
 export const createEvent = (event) => {
     return {
         type: CREATE_EVENT,
-        payload : {
+        payload: {
             event
         }
     }
@@ -14,7 +23,7 @@ export const createEvent = (event) => {
 export const updateEvent = (event) => {
     return {
         type: UPDATE_EVENT,
-        payload : {
+        payload: {
             event
         }
     }
@@ -23,8 +32,22 @@ export const updateEvent = (event) => {
 export const deleteEvent = (eventId) => {
     return {
         type: DELETE_EVENT,
-        payload : {
+        payload: {
             eventId
+        }
+    }
+};
+
+export const loadEvents = () => {
+    return async dispatch => {
+        try {
+            dispatch(asyncActionStart());
+            let events = await fetchSampleData();
+            dispatch(fecthEvents(events));
+            dispatch(asyncActionFinish());
+        } catch (error) {
+            console.log(error);
+            dispatch(asyncActionError())
         }
     }
 };
