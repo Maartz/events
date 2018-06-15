@@ -44,15 +44,15 @@ const category = [
 ];
 
 const validate = combineValidators({
-    title: isRequired({message: 'The event title is required'}),
-    category: isRequired({message: 'Please provide a category'}),
+    title: isRequired({message: 'Votre évènement doit avoir un titre'}),
+    category: isRequired({message: 'Vous devez renseigner une catégorie'}),
     description: composeValidators(
-        isRequired({message: 'Please provide a description'}),
-        hasLengthGreaterThan(4)({message: 'Description needs to be at least 5 characters long'})
+        isRequired({message: 'Parlez un peu de votre évènements ;) '}),
+        hasLengthGreaterThan(4)({message: 'Moins de 5 caractères ??'})
     )(),
-    city: isRequired('City'),
-    venue: isRequired('Venue'),
-    date: isRequired('Date')
+    city: isRequired({message: 'Il faut bien que ça ce passe quelque part ...'}),
+    venue: isRequired({message: 'Où est ce qu\'on va ?'}),
+    date: isRequired({message: 'On vas bien prévoir ça un jour, non ?'})
 });
 
 class EventForm extends Component {
@@ -173,10 +173,10 @@ class EventForm extends Component {
                                 placeholder='Date and time of event'
                             />
 
-                            <Button disabled={invalid || submitting || pristine} positive type="submit">
-                                Submit
+                            <Button disabled={invalid || submitting || pristine} color='blue' type="submit">
+                                Envoyer
                             </Button>
-                            <Button onClick={this.props.history.goBack} type="button">Cancel</Button>
+                            <Button onClick={this.props.history.goBack} type="button">Annuler</Button>
                         </Form>
                     </Segment>
                 </Grid.Column>

@@ -38,6 +38,7 @@ export const updateEvent = (event) => {
             });
             toastr.success("Success!", "Event has been updated");
         } catch (e) {
+            console.log(e);
             toastr.error("Oops!", "Something went wrong");
         }
     }

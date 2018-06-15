@@ -21,12 +21,21 @@ body {
 /*home page styles*/
 
 .masthead {
-    background-image: linear-gradient(
-            135deg,
-            rgb(24, 42, 115) 0%,
-            rgb(33, 138, 174) 69%,
-            rgb(32, 167, 172) 89%
-    ) !important;
+    /*background-image: linear-gradient(*/
+            /*135deg,*/
+            /*rgb(225, 175, 60) 0%,*/
+            /*rgb(212, 56, 139) 69%,*/
+            /*rgb(93, 60, 194) 89%*/
+    /*) !important;*/
+    /*background-color: rgb(78, 62, 245)!important;*/
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /*-webkit-transform: skewY(-12deg);*/
+    /*transform: skewY(-12deg);*/
+    -webkit-transform-origin: 0;
+    transform-origin: 0;
+    background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%)!important;
 }
 
 .masthead.segment {
@@ -68,12 +77,14 @@ body {
 }
 
 .ui.fixed.menu {
-    background-image: linear-gradient(
-            135deg,
-            rgb(24, 42, 115) 0%,
-            rgb(33, 138, 174) 69%,
-            rgb(32, 167, 172) 89%
-    ) !important;
+    /*background-image: linear-gradient(*/
+            /*135deg,*/
+            /*rgb(225, 175, 60) 0%,*/
+            /*rgb(212, 56, 139) 69%,*/
+            /*rgb(93, 60, 194) 89%*/
+    /*) !important;*/
+    /*background-color: rgb(78, 62, 245);*/
+    background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%)!important;
 }
 
 .ui.main.container,
