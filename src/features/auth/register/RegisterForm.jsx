@@ -40,9 +40,12 @@ const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) 
                         component={TextInput}
                         placeholder="Password"
                     />
-                    {error && <Label size='large' circular color='red'>{error}</Label>}
+                    {error && <div>
+                        <Label color='red'>{error}</Label>
+                        <br/><br/>
+                    </div>}
 
-                    <Button disabled={invalid || submitting} fluid size="large" color="violet" animated>
+                    <Button disabled={invalid || submitting} fluid size="large" style={{backgroundColor: '#4e3ef5', color: 'white'}} animated>
                         <Button.Content visible>S'enregistrer</Button.Content>
                         <Button.Content hidden>
                             <Icon name='right arrow'/>

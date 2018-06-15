@@ -1,6 +1,7 @@
 // Actions creators
 
-import {SubmissionError} from 'redux-form'
+import {SubmissionError, reset} from 'redux-form'
+import {toastr} from 'react-redux-toastr'
 import {closeModal} from "../modals/ModalActions";
 
 export const login = (creds) => {
@@ -38,9 +39,48 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         await firestore.set(`users/${createdUser.uid}`, {...newUser})
         dispatch(closeModal());
     } catch (e) {
-        console.log(e)
+        console.log(e);
         throw new SubmissionError({
             _error: 'Oups, quelque chose ne va pas.'
         })
     }
 };
+
+export const socialLogin = (selectProvider) => async (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    try {
+        let user = await firebase.login({
+            provider: selectProvider,
+            type: 'popup'
+        });
+        if (user.additionalUserInfo.isNewUser) {
+            dispatch(closeModal());
+            await firestore.set(`users/${user.user.uid}`, {
+                displayName: user.profile.displayName,
+                photoURL: user.profile.avatarUrl,
+                createdAt: firestore.FieldValue.serverTimestamp()
+            })
+        }
+        dispatch(closeModal());
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const updatePassword = (creds) => async (dispatch, getState, {getFirebase}) => {
+    const firebase = getFirebase();
+    const user = firebase.auth().currentUser;
+    try {
+        await user.updatePassword(creds.newPassword1);
+        await dispatch(reset('account'));
+        toastr.success('Bravo !', 'Votre mot de passe a été mis à jour.')
+    } catch (error) {
+        throw new SubmissionError({
+            _error: 'Échec de mise à jour du mot de passe',
+        })
+    }
+};
+
+
+

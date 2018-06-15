@@ -7,10 +7,10 @@ const SignedOutMenu = ({signIn, register}) => {
             <Button onClick={signIn} basic inverted animated='fade'>
                 <Button.Content visible>Connexion</Button.Content>
                 <Button.Content hidden>
-                    <Icon name='sign in alt'/>
+                    <Icon name='sign in'/>
                 </Button.Content>
             </Button>
-            <Button onClick={register} basic inverted content="Register" style={{marginLeft: '0.5em'}} animated='fade'>
+            <Button onClick={register} basic inverted style={{marginLeft: '0.5em'}} animated='fade'>
                 <Button.Content visible>Inscription</Button.Content>
                 <Button.Content hidden>
                     <Icon name='user plus'/>
