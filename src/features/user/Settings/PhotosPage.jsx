@@ -1,7 +1,20 @@
 import React, {Component} from 'react';
-import {Image, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-react';
+import {Image, Icon, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-react';
+import Dropzone from 'react-dropzone';
 
 class PhotosPage extends Component {
+    state = {
+        files : [],
+        fileName: ''
+    }
+
+    onDrop = (files) => {
+        this.setState({
+            files,
+            fileName: files[0].name
+        })
+    };
+
     render() {
         return (
             <Segment>
@@ -10,6 +23,13 @@ class PhotosPage extends Component {
                     <Grid.Row/>
                     <Grid.Column width={4}>
                         <Header style={{color: '#53f'}} sub content='Étape 1 - Ajouter une photo'/>
+                        <Dropzone onDrop={this.onDrop} multiple={false}>
+                            <div style={{color: '#53f', paddingTop: '30px', textAlign: 'center'}}>
+                                <Icon name='upload' size='huge'/>
+                                <Header style={{color: '#53f'}}
+                                        content='Déposez une image ici ou cliquez pour ajouter'/>
+                            </div>
+                        </Dropzone>
                     </Grid.Column>
                     <Grid.Column width={1}/>
                     <Grid.Column width={4}>
@@ -18,6 +38,9 @@ class PhotosPage extends Component {
                     <Grid.Column width={1}/>
                     <Grid.Column width={4}>
                         <Header sub style={{color: '#53f'}} content='Étape 3 - Aperçu et upload'/>
+                        {this.state.files[0] &&
+                        <Image style={{ minHeight: '200px' , minWidth: '200px'}} src={this.state.files[0].preview}/>
+                        }
                     </Grid.Column>
 
                 </Grid>
