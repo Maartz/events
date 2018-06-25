@@ -41,11 +41,15 @@ class NavBar extends Component {
                         <img src="/assets/logo.png" alt="logo"/>
                         Revents
                     </Menu.Item>
-                    <Menu.Item as={NavLink} to='/events' name="Events"/>
-                    {authenticated && <Menu.Item as={NavLink} to='/people' name="People"/>}
+                    <Menu.Item as={NavLink} to='/events' name="Évènements"/>
+                    {authenticated && <Menu.Item as={NavLink} to='/people' name="Reventeurs"/>}
 
                     {authenticated && <Menu.Item>
-                        <Button as={Link} to='/createEvent' floated="right" color='blue' content="Créer un évènement"/>
+                        <Button as={Link}
+                                to='/createEvent'
+                                floated="right"
+                                style={{background: '#53f' , color : '#fff'}}
+                                content="Créer un évènement"/>
                     </Menu.Item>}
                     {
                         authenticated ? (
