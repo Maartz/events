@@ -34,6 +34,7 @@ const actions = {
     updateEvent
 };
 
+/*
 const category = [
     {key: 'drinks', text: 'Drinks', value: 'drinks'},
     {key: 'culture', text: 'Culture', value: 'culture'},
@@ -42,16 +43,33 @@ const category = [
     {key: 'music', text: 'Music', value: 'music'},
     {key: 'travel', text: 'Travel', value: 'travel'},
 ];
+*/
+
+const category = [
+    { key: 'outing', text: 'Sortie', value: 'outing' },
+    { key: 'culture', text: 'Culture', value: 'culture' },
+    { key: 'film', text: 'Film', value: 'film' },
+    { key: 'food', text: 'Nourriture', value: 'food' },
+    { key: 'music', text: 'Musique', value: 'music' },
+    { key: 'travel', text: 'Voyage', value: 'travel' },
+    { key: 'game', text: 'Jeux Vidéo', value: 'video games' },
+    { key: 'sport', text: 'Sport', value: 'sport' },
+    { key: 'computer', text: 'Informatique', value: 'computer' },
+    { key: 'art', text: 'Art', value: 'art' },
+    { key: 'book', text: 'Lecture', value: 'book' },
+    { key: 'danse', text: 'Danse', value: 'danse' }
+];
+
 
 const validate = combineValidators({
     title: isRequired({message: 'Votre évènement doit avoir un titre'}),
     category: isRequired({message: 'Vous devez renseigner une catégorie'}),
     description: composeValidators(
-        isRequired({message: 'Parlez un peu de votre évènements ;) '}),
+        isRequired({message: 'Parlez nous un peu de votre évènements ;) '}),
         hasLengthGreaterThan(4)({message: 'Moins de 5 caractères ??'})
     )(),
-    city: isRequired({message: 'Il faut bien que ça ce passe quelque part ...'}),
-    venue: isRequired({message: 'Où est ce qu\'on va ?'}),
+    city: isRequired({message: 'Il faut bien que ça ce passe quelque part …'}),
+    venue: isRequired({message: 'Où est ce que ça ce passe ?'}),
     date: isRequired({message: 'On vas bien prévoir ça un jour, non ?'})
 });
 
@@ -119,35 +137,35 @@ class EventForm extends Component {
                 />
                 <Grid.Column width={10}>
                     <Segment>
-                        <Header sub color='teal' content='Event Details'/>
+                        <Header sub color='teal' content="Details de l'évènement "/>
                         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
                             <Field
                                 name='title'
                                 type='text'
                                 component={TextInput}
-                                placeholder='Give your event a name'
+                                placeholder="Comment s'appelle votre évènement ?"
                             />
                             <Field
                                 name='category'
                                 type='text'
                                 component={SelectInput}
                                 options={category}
-                                placeholder='What is your event about'
+                                placeholder="Quelle est le sujet de votre évènement"
                             />
                             <Field
                                 name='description'
                                 type='text'
                                 rows={3}
                                 component={TextArea}
-                                placeholder='Tell us about your event'
+                                placeholder='Une petite description ?'
                             />
-                            <Header sub color='teal' content='Event Location Details'/>
+                            <Header sub color='teal' content='Détails sur le lieu'/>
                             <Field
                                 name='city'
                                 type='text'
                                 component={PlaceInput}
                                 options={{types: ['(cities)']}}
-                                placeholder='Event city'
+                                placeholder='Ville'
                                 onSelect={this.handleCitySelect}
                             />
                             {this.state.scriptLoaded &&
@@ -160,7 +178,7 @@ class EventForm extends Component {
                                     radius: 1000,
                                     types: ['establishment']
                                 }}
-                                placeholder='Event venue'
+                                placeholder='Établissement'
                                 onSelect={this.handleVenueSelect}
                             />}
                             <Field
@@ -170,10 +188,14 @@ class EventForm extends Component {
                                 timeFormat='HH:mm'
                                 showTimeSelect
                                 component={DateInput}
-                                placeholder='Date and time of event'
+                                placeholder="Date et heure de l'évènement"
                             />
 
-                            <Button disabled={invalid || submitting || pristine} color='blue' type="submit">
+                            <Button
+                                disabled={invalid || submitting || pristine}
+                                type="submit"
+                                style={{backgroundColor: '#4e3ef5', color: 'white'}}
+                            >
                                 Envoyer
                             </Button>
                             <Button onClick={this.props.history.goBack} type="button">Annuler</Button>

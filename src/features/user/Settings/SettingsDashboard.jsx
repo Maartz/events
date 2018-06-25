@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import SettingsNav from './SettingsNav';
-import AboutePage from './AboutPage';
+import AboutPage from './AboutPage';
 import PhotosPage from './PhotosPage';
 import AccountPage from './AccountPage';
 import BasicPage from './BasicPage';
@@ -33,7 +33,13 @@ const SettingsDashboard = ({ updatePassword, providerId, user, updateProfile }) 
                             updateProfile={updateProfile}
                         />}
                     />
-                    <Route path="/settings/about" component={AboutePage} />
+                    <Route
+                        path="/settings/about"
+                        render={() => <AboutPage
+                            initialValues={user}
+                            updateProfile={updateProfile}
+                        />}
+                    />
                     <Route path="/settings/photos" component={PhotosPage} />
                     <Route
                         path="/settings/account"
