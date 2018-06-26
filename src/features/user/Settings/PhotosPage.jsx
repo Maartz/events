@@ -1,8 +1,37 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {firestoreConnect} from 'react-redux-firebase'
+import {compose} from 'redux';
+import {toastr} from 'react-redux-toastr';
 import {Image, Icon, Segment, Header, Divider, Grid, Button, Card} from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
+import {uploadProfilImage, deletePhoto, setMainPhoto} from "../UserActions";
+
+const query = ({auth}) => {
+    return [
+        {
+            collection: 'users',
+            doc: auth.uid,
+            subcollections: [{collection: 'photos'}],
+            storeAs: 'photos'
+        }
+    ]
+}
+
+const actions = {
+    uploadProfilImage,
+    deletePhoto,
+    setMainPhoto
+};
+
+const mapState = state => ({
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+    photos: state.firestore.ordered.photos,
+    loading: state.async.loading
+});
 
 class PhotosPage extends Component {
     state = {
@@ -10,7 +39,43 @@ class PhotosPage extends Component {
         fileName: '',
         cropResult: null,
         image: {}
-    }
+    };
+
+    uploadImage = async () => {
+        try {
+            await this.props.uploadProfilImage(this.state.image, this.state.fileName);
+            this.cancelCrop();
+            toastr.success('Super !', 'Votre image a été uploadé !');
+        } catch (e) {
+            toastr.error('Oups…', 'Quelque chose s\'est mal passé…');
+            console.log(e);
+        }
+    };
+
+    handlePhotoDelete = photo => async () => {
+        try {
+            this.props.deletePhoto(photo);
+            toastr.success('POUF !!', 'Plus de photo !!')
+        } catch (e) {
+            toastr.error('Oups', e.message);
+        }
+    };
+
+    handleSetMainPhoto = photo => async () => {
+        try {
+            this.props.setMainPhoto(photo);
+        } catch (e) {
+            console.log(e);
+            toastr.error('Oups', e.message);
+        }
+    };
+
+    cancelCrop = () => {
+        this.setState({
+            files: [],
+            image: {}
+        })
+    };
 
     onDrop = (files) => {
         this.setState({
@@ -34,6 +99,11 @@ class PhotosPage extends Component {
     };
 
     render() {
+        const {photos, profile, loading} = this.props;
+        let filteredPhotos;
+        if (photos) {
+            filteredPhotos = photos.filter(photo => photo.url !== profile.photoURL);
+        }
         return (
             <Segment>
                 <Header dividing size='large' content='Mes photos'/>
@@ -71,7 +141,25 @@ class PhotosPage extends Component {
                     <Grid.Column width={4}>
                         <Header sub style={{color: '#53f'}} content='Étape 3 - Aperçu et upload'/>
                         {this.state.files[0] &&
-                        <Image style={{minHeight: '200px', minWidth: '200px'}} src={this.state.cropResult}/>
+                        <div>
+                            <Image style={{minHeight: '200px', minWidth: '200px'}} src={this.state.cropResult}/>
+                            <Button.Group>
+                                <Button
+                                    loading={loading}
+                                    onClick={this.uploadImage}
+                                    style={{
+                                        background: '#53f',
+                                        color: '#fff',
+                                        width: '100px'}}
+                                    icon='check'/>
+                                <Button
+                                    disabled={loading}
+                                    onClick={this.cancelCrop}
+                                    style={{width: '100px'}}
+                                    icon='close'
+                                />
+                            </Button.Group>
+                        </div>
                         }
                     </Grid.Column>
 
@@ -82,26 +170,36 @@ class PhotosPage extends Component {
 
                 <Card.Group itemsPerRow={5}>
                     <Card>
-                        <Image src='https://randomuser.me/api/portraits/men/10.jpg'/>
-                        <Button style={{background: '#53f', color: '#fff'}}>Principale</Button>
+                        <Image src={profile.photoURL || '/assets/user.png'}/>
+                        <Button style={{background: '#53f', color: '#fff'}}>Actuel</Button>
                     </Card>
-
-                    <Card>
-                        <Image
-                            src='https://randomuser.me/api/portraits/men/11.jpg'
-                        />
-                        <div className='ui two buttons'>
-                            <Button
-                                inverted
-                                style={{color: '#53f'}}
-                            >Changer</Button>
-                            <Button inverted icon='trash' color='red'/>
-                        </div>
-                    </Card>
+                    {photos && filteredPhotos.map(photo => (
+                        <Card key={photo.id}>
+                            <Image
+                                src={photo.url}
+                            />
+                            <div className='ui two buttons'>
+                                <Button
+                                    onClick={this.handleSetMainPhoto(photo)}
+                                    inverted
+                                    style={{color: '#53f'}}
+                                >Changer</Button>
+                                <Button
+                                    onClick={this.handlePhotoDelete(photo)}
+                                    inverted
+                                    icon='trash'
+                                    color='red'
+                                />
+                            </div>
+                        </Card>
+                    ))}
                 </Card.Group>
             </Segment>
         );
     }
 }
 
-export default PhotosPage;
+export default compose(
+    connect(mapState, actions),
+    firestoreConnect(auth => query(auth))
+)(PhotosPage);
