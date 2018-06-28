@@ -42,18 +42,19 @@ class NavBar extends Component {
                         Revents
                     </Menu.Item>
                     <Menu.Item as={NavLink} to='/events' name="Évènements"/>
-                    {authenticated && <Menu.Item as={NavLink} to='/people' name="Reventeurs"/>}
+                    {authenticated && <Menu.Item as={NavLink} to='/people' name="Eventeurs"/>}
 
                     {authenticated && <Menu.Item>
                         <Button as={Link}
                                 to='/createEvent'
                                 floated="right"
                                 style={{background: '#53f' , color : '#fff'}}
-                                content="Créer un évènement"/>
+                                content="Créer un Events"/>
                     </Menu.Item>}
                     {
                         authenticated ? (
                             <SignInMenu
+                                auth={auth}
                                 profile={profile}
                                 signOut={this.handleSignOut}
                             />) : (

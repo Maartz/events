@@ -8,18 +8,18 @@ import PlaceInput from '../../../app/common/form/PlaceInput';
 import SelectInput from '../../../app/common/form/SelectInput';
 
 const interests = [
-    { key: 'outing', text: 'Sortie', value: 'outing' },
-    { key: 'culture', text: 'Culture', value: 'culture' },
-    { key: 'film', text: 'Film', value: 'film' },
-    { key: 'food', text: 'Nourriture', value: 'food' },
-    { key: 'music', text: 'Musique', value: 'music' },
-    { key: 'travel', text: 'Voyage', value: 'travel' },
-    { key: 'game', text: 'Jeux Vidéo', value: 'videoGames' },
-    { key: 'sport', text: 'Sport', value: 'sport' },
-    { key: 'computer', text: 'Informatique', value: 'computer' },
-    { key: 'art', text: 'Art', value: 'art' },
-    { key: 'book', text: 'Lecture', value: 'book' },
-    { key: 'danse', text: 'Danse', value: 'danse' }
+    { key: 'outing', text: 'Sortie', value: 'Sortie' },
+    { key: 'culture', text: 'Culture', value: 'Culture' },
+    { key: 'film', text: 'Film', value: 'Film' },
+    { key: 'food', text: 'Nourriture', value: 'Nourriture' },
+    { key: 'music', text: 'Musique', value: 'Musique' },
+    { key: 'travel', text: 'Voyage', value: 'Voyage' },
+    { key: 'game', text: 'Jeux Vidéo', value: 'Jeux vidéo' },
+    { key: 'sport', text: 'Sport', value: 'Sport' },
+    { key: 'computer', text: 'Informatique', value: 'Informatique' },
+    { key: 'art', text: 'Art', value: 'Art' },
+    { key: 'book', text: 'Lecture', value: 'Lecture' },
+    { key: 'danse', text: 'Danse', value: 'Danse' }
 ];
 
 const AboutPage = ({ pristine, submitting, handleSubmit, updateProfile }) => {

@@ -46,26 +46,26 @@ const category = [
 */
 
 const category = [
-    { key: 'outing', text: 'Sortie', value: 'outing' },
-    { key: 'culture', text: 'Culture', value: 'culture' },
-    { key: 'film', text: 'Film', value: 'film' },
-    { key: 'food', text: 'Nourriture', value: 'food' },
-    { key: 'music', text: 'Musique', value: 'music' },
-    { key: 'travel', text: 'Voyage', value: 'travel' },
-    { key: 'game', text: 'Jeux Vidéo', value: 'video games' },
-    { key: 'sport', text: 'Sport', value: 'sport' },
-    { key: 'computer', text: 'Informatique', value: 'computer' },
-    { key: 'art', text: 'Art', value: 'art' },
-    { key: 'book', text: 'Lecture', value: 'book' },
-    { key: 'danse', text: 'Danse', value: 'danse' }
+    { key: 'outing', text: 'Sortie', value: 'Sortie' },
+    { key: 'culture', text: 'Culture', value: 'Culture' },
+    { key: 'film', text: 'Film', value: 'Film' },
+    { key: 'food', text: 'Nourriture', value: 'Nourriture' },
+    { key: 'music', text: 'Musique', value: 'Musique' },
+    { key: 'travel', text: 'Voyage', value: 'Voyage' },
+    { key: 'game', text: 'Jeux Vidéo', value: 'Jeux vidéo' },
+    { key: 'sport', text: 'Sport', value: 'Sport' },
+    { key: 'computer', text: 'Informatique', value: 'Informatique' },
+    { key: 'art', text: 'Art', value: 'Art' },
+    { key: 'book', text: 'Lecture', value: 'Lecture' },
+    { key: 'danse', text: 'Danse', value: 'Danse' }
 ];
 
 
 const validate = combineValidators({
-    title: isRequired({message: 'Votre évènement doit avoir un titre'}),
+    title: isRequired({message: 'Votre Events doit avoir un titre'}),
     category: isRequired({message: 'Vous devez renseigner une catégorie'}),
     description: composeValidators(
-        isRequired({message: 'Parlez nous un peu de votre évènements ;) '}),
+        isRequired({message: 'Parlez nous un peu de votre Events ;) '}),
         hasLengthGreaterThan(4)({message: 'Moins de 5 caractères ??'})
     )(),
     city: isRequired({message: 'Il faut bien que ça ce passe quelque part …'}),
@@ -137,20 +137,20 @@ class EventForm extends Component {
                 />
                 <Grid.Column width={10}>
                     <Segment>
-                        <Header sub color='teal' content="Details de l'évènement "/>
+                        <Header as='h1' style={{color: '#53f'}} content="Details de l'Events "/>
                         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
                             <Field
                                 name='title'
                                 type='text'
                                 component={TextInput}
-                                placeholder="Comment s'appelle votre évènement ?"
+                                placeholder="Comment s'appelle votre Events ?"
                             />
                             <Field
                                 name='category'
                                 type='text'
                                 component={SelectInput}
                                 options={category}
-                                placeholder="Quelle est le sujet de votre évènement"
+                                placeholder="Quelle est le sujet de votre Events"
                             />
                             <Field
                                 name='description'
@@ -159,7 +159,7 @@ class EventForm extends Component {
                                 component={TextArea}
                                 placeholder='Une petite description ?'
                             />
-                            <Header sub color='teal' content='Détails sur le lieu'/>
+                            <Header as='h1' style={{color: '#53f'}} content='Détails sur le lieu'/>
                             <Field
                                 name='city'
                                 type='text'
@@ -194,7 +194,7 @@ class EventForm extends Component {
                             <Button
                                 disabled={invalid || submitting || pristine}
                                 type="submit"
-                                style={{backgroundColor: '#4e3ef5', color: 'white'}}
+                                style={{backgroundColor: '#53f', color: 'white'}}
                             >
                                 Envoyer
                             </Button>
