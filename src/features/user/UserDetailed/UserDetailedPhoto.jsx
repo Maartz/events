@@ -26,6 +26,6 @@ const UserDetailedPhoto = ({photos}) => {
             </Segment>
         </Grid.Column>
     )
-}
+};
 
 export default UserDetailedPhoto
