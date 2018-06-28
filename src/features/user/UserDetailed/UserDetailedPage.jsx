@@ -51,7 +51,6 @@ class UserDetailedPage extends Component {
                 <UserDetailedPhoto photos={photos}/>}
                 <UserDetailedEvents/>
             </Grid>
-
         );
     }
 }

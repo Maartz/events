@@ -48,7 +48,7 @@ export const updateEvent = (event) => {
     return async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
         if(event.date !== getState().firestore.ordered.events[0].date){
-            event.date = moment(event.date.toDate());
+            event.date = moment(event.date).toDate();
         }
         try {
             await firestore.update(`events/${event.id}`, event);

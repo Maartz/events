@@ -185,7 +185,7 @@ class EventForm extends Component {
                             <Field
                                 name='date'
                                 type='date'
-                                dateFormat='YYYY-MM-DD HH:mm'
+                                dateFormat='DD-MM-YYYY HH:mm'
                                 timeFormat='HH:mm'
                                 showTimeSelect
                                 component={DateInput}
