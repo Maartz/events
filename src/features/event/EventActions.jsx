@@ -1,7 +1,7 @@
 // Actions Creators
 import React from 'react'
 import {toastr} from 'react-redux-toastr'
-import {DELETE_EVENT, UPDATE_EVENT, FETCH_EVENTS} from "./EventConstant";
+import {DELETE_EVENT, FETCH_EVENTS} from "./EventConstant";
 import {asyncActionStart, asyncActionFinish, asyncActionError} from "../async/asyncActions";
 import {fetchSampleData} from "../../app/data/mockApi";
 import {createNewEvent} from "../../app/common/util/helpers";

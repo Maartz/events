@@ -4,10 +4,11 @@ import {Link} from 'react-router-dom';
 import format from 'date-fns/format';
 import EventListAttendee from './EventListAttendee';
 import {Emoji} from "emoji-mart";
+import {objectToArray} from "../../../app/common/util/helpers";
 
 class EventListItem extends Component {
     render() {
-        const {event, deleteEvent} = this.props;
+        const {event} = this.props;
         const locale = require('date-fns/locale/fr');
         return (
             <div>
@@ -17,9 +18,9 @@ class EventListItem extends Component {
                             <Item>
                                 <Item.Image size="tiny" circular src={event.hostPhotoURL}/>
                                 <Item.Content>
-                                    <Item.Header as="a">{event.title}</Item.Header>
+                                    <Item.Header as={Link} to={`/event/${event.id}`}>{event.title}</Item.Header>
                                     <Item.Description>
-                                        Organisé par <a>{event.hostedBy}</a>
+                                        Organisé par <Link to={`/profile/${event.hostUid}`}>{event.hostedBy}</Link>
                                     </Item.Description>
                                     {event.cancelled &&
                                     <Label style={{top: '-40px'}} ribbon='right' color='red'
@@ -38,9 +39,9 @@ class EventListItem extends Component {
                     </Segment>
                     <Segment secondary>
                         <List horizontal>
-                            {event.attendees && Object.values(event.attendees).map(
-                                (attendee, index) => <EventListAttendee
-                                    key={index}
+                            {event.attendees && objectToArray(event.attendees).map(
+                                (attendee) => <EventListAttendee
+                                    key={attendee.id}
                                     attendee={attendee}
                                 />
                             )}
@@ -53,15 +54,9 @@ class EventListItem extends Component {
                             to={`/event/${event.id}`}
                             color="teal"
                             floated="right"
-                            content="View"
-                        />
-                        <Button
-                            onClick={deleteEvent(event.id)}
-                            as="a"
-                            color="red"
-                            floated="right"
-                            content="Delete"
-                        />
+                        >
+                            Détails
+                        </Button>
                     </Segment>
                 </Segment.Group>
             </div>

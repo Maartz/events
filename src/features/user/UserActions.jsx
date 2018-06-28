@@ -1,7 +1,9 @@
+import React from 'react'
 import moment from 'moment';
 import {toastr} from 'react-redux-toastr';
 import cuid from 'cuid';
 import {asyncActionStart, asyncActionError, asyncActionFinish} from "../async/asyncActions";
+import {Emoji} from "emoji-mart";
 
 
 export const updateProfile = (user) => async (dispatch, getState, {getFirebase}) => {
@@ -15,7 +17,11 @@ export const updateProfile = (user) => async (dispatch, getState, {getFirebase})
 
     try {
         await firebase.updateProfile(updateUser);
-        toastr.success('Bravo !', 'Votre profil à été mis à jour.')
+        toastr.success(
+            "Yes!",
+            "Votre profil à été mis à jour",
+            {icon: (<Emoji emoji='sunglasses' size={45} native/>)}
+        );
     } catch (e) {
         console.log(e);
     }
@@ -94,7 +100,73 @@ export const setMainPhoto = (photo) =>
             });
         } catch (e) {
             console.log(e);
-            throw new Error('Aïe aïe, on arrive pas à mettre à jour la photo…');
+            throw new Error('Aïe, on arrive pas à mettre à jour la photo…');
         }
 
+    };
+
+export const goingToEvent = (event) =>
+    async (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        const user = firestore.auth().currentUser;
+        const photoURL = getState().firebase.profile.photoURL;
+        const attendee = {
+            going: true,
+            joinDate: Date.now(),
+            photoURL: photoURL || '/assets/user.png',
+            displayName: user.displayName,
+            host: false
+        };
+
+        try {
+            await firestore.update(`events/${event.id}`, {
+                [`attendees.${user.uid}`]: attendee
+            });
+            await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
+                eventId: event.id,
+                userId: user.uid,
+                eventDate: event.date,
+                host:false
+            });
+            toastr.success(
+                "Alright",
+                "Vous êtes bien inscrit à l'Events!",
+                {icon: (<Emoji emoji='fire' size={45} native/>)}
+            );
+
+        } catch (e) {
+            console.log(e);
+            toastr.error(
+                "Aïe!",
+                "Il semble y avoir un problème avec cet Events",
+                {icon: (<Emoji emoji='sweat_smile' size={45} native/>)}
+            );
+        }
+    };
+
+export const cancelGoingToEvent = (event) =>
+    async (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        const user = firestore.auth().currentUser;
+
+        try {
+            await firestore.update(`events/${event.id}`, {
+              [`attendees.${user.uid}`] : firestore.FieldValue.delete()
+            });
+
+            await firestore.delete(`event_attendee/${event.id}_${user.uid}`);
+
+            toastr.success(
+                "D'accord",
+                "Vous êtes bien désinscrit de l'Events!",
+                {icon: (<Emoji emoji='pensive' size={45} native/>)}
+            );
+
+        } catch (e) {
+            console.log(e);
+            toastr.error(
+                "Aïe!",
+                "Il semble y avoir un problème avec cet Events",
+                {icon: (<Emoji emoji='sweat_smile' size={45} native/>)})
+        }
     }

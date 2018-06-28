@@ -17,7 +17,7 @@ const eventImageTextStyle = {
     color: 'white'
 };
 
-const EventDetailedHeader = ({event}) => {
+const EventDetailedHeader = ({event, isGoing, isHost, goingToEvent, cancelGoingToEvent}) => {
     const locale = require('date-fns/locale/fr');
     let eventDate;
     if(event.date){
@@ -51,23 +51,35 @@ const EventDetailedHeader = ({event}) => {
             </Segment>
 
             <Segment attached="bottom">
-                <Button>Annulé ma place</Button>
-                <Button
-                    animated='fade'
-                    style={{backgroundColor: '#53f', color : '#FFF'}}
-                >
-                    <Button.Content visible>
-                        Rejoindre cet Events
-                    </Button.Content>
-                    <Button.Content hidden>
-                        <Emoji emoji='ok_hand' size={20} native/>
-                    </Button.Content>
-                </Button>
-
-
-                <Button as={Link} to={`/manage/${event.id}`} color="orange" floated="right">
+                {!isHost &&
+                    <div>
+                        {isGoing ?
+                            <Button
+                                onClick={()=>cancelGoingToEvent(event)}
+                            >
+                                Annulé ma place
+                            </Button>
+                            :
+                            <Button
+                                onClick={() => goingToEvent(event)}
+                                animated='fade'
+                                style={{backgroundColor: '#53f', color : '#FFF'}}
+                            >
+                                <Button.Content visible>
+                                    Rejoindre cet Events
+                                </Button.Content>
+                                <Button.Content hidden>
+                                    <Emoji emoji='ok_hand' size={20} native/>
+                                </Button.Content>
+                            </Button>
+                        }
+                    </div>
+                }
+                {isHost &&
+                <Button as={Link} to={`/manage/${event.id}`} color="orange">
                     Gérer mon Events
                 </Button>
+                }
             </Segment>
         </Segment.Group>
     )

@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import format from 'date-fns/format';
-import { fr } from 'date-fns/locale/fr';
-import {Button, Grid, Icon, Segment} from "semantic-ui-react";
+import {Button, Grid, Segment} from "semantic-ui-react";
 import EventDetailedMap from './EventDetailedMap';
 import {Emoji} from "emoji-mart";
 
