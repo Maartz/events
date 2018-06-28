@@ -2,6 +2,7 @@ import React from 'react'
 import format from 'date-fns/format';
 import {Button, Header, Image, Item, Segment} from "semantic-ui-react";
 import { Link } from 'react-router-dom';
+import {Emoji} from "emoji-mart";
 
 const eventImageStyle = {
     filter: 'brightness(30%)'
@@ -17,6 +18,11 @@ const eventImageTextStyle = {
 };
 
 const EventDetailedHeader = ({event}) => {
+    const locale = require('date-fns/locale/fr');
+    let eventDate;
+    if(event.date){
+        eventDate = event.date.toDate();
+    }
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{padding: '0'}}>
@@ -34,9 +40,9 @@ const EventDetailedHeader = ({event}) => {
                                     content={event.title}
                                     style={{color: 'white'}}
                                 />
-                                <p>{format(event.date, 'dddd Do MMMM')}</p>
+                                <p>Le {format(eventDate, 'dddd D MMMM', {locale: locale})}</p>
                                 <p>
-                                    Hosted by <strong>{event.hostedBy}</strong>
+                                    Organisé par <strong>{event.hostedBy}</strong>
                                 </p>
                             </Item.Content>
                         </Item>
@@ -45,11 +51,22 @@ const EventDetailedHeader = ({event}) => {
             </Segment>
 
             <Segment attached="bottom">
-                <Button>Cancel My Place</Button>
-                <Button color="teal">JOIN THIS EVENT</Button>
+                <Button>Annulé ma place</Button>
+                <Button
+                    animated='fade'
+                    style={{backgroundColor: '#53f', color : '#FFF'}}
+                >
+                    <Button.Content visible>
+                        Rejoindre cet Events
+                    </Button.Content>
+                    <Button.Content hidden>
+                        <Emoji emoji='ok_hand' size={20} native/>
+                    </Button.Content>
+                </Button>
+
 
                 <Button as={Link} to={`/manage/${event.id}`} color="orange" floated="right">
-                    Manage Event
+                    Gérer mon Events
                 </Button>
             </Segment>
         </Segment.Group>

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux'
-import { Emoji } from 'emoji-mart'
 import {Grid} from "semantic-ui-react";
 
 import LoadingComponent from "../../../app/layout/LoadingComponent";

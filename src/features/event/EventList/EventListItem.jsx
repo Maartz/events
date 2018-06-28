@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
-import {Segment, Item, Button, Icon, List} from 'semantic-ui-react';
+import {Segment, Item, Button, List, Label} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import format from 'date-fns/format';
 import EventListAttendee from './EventListAttendee';
+import {Emoji} from "emoji-mart";
 
 class EventListItem extends Component {
     render() {
         const {event, deleteEvent} = this.props;
+        const locale = require('date-fns/locale/fr');
         return (
             <div>
                 <Segment.Group>
@@ -17,17 +19,21 @@ class EventListItem extends Component {
                                 <Item.Content>
                                     <Item.Header as="a">{event.title}</Item.Header>
                                     <Item.Description>
-                                        Hosted by <a>{event.hostedBy}</a>
+                                        Organisé par <a>{event.hostedBy}</a>
                                     </Item.Description>
+                                    {event.cancelled &&
+                                    <Label style={{top: '-40px'}} ribbon='right' color='red'
+                                           content='Cet Events à été annulé'/>}
                                 </Item.Content>
                             </Item>
                         </Item.Group>
                     </Segment>
                     <Segment>
                           <span>
-                            <Icon
-                                name="clock"/> {format(event.date.toDate(), 'dddd Do MMMM')} at {format(event.date.toDate(), 'HH:mm')} |
-                            <Icon name="marker"/> {event.venue}
+                              <Emoji native emoji='date' size={15}/>
+                              Le {format(event.date.toDate(), 'dddd D MMMM', {locale: locale})} à {format(event.date.toDate(), 'HH:mm')}
+                              <br/><br/>
+                            <Emoji native emoji='round_pushpin' size={15}/> {event.venue}
                           </span>
                     </Segment>
                     <Segment secondary>

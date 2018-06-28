@@ -7,13 +7,13 @@ const EventDetailedSidebar = ({attendees}) => {
         <div>
             <Segment
                 textAlign="center"
-                style={{ border: 'none' }}
+                style={{border: 'none', color: '#fff', backgroundColor: '#53f'}}
                 attached="top"
                 secondary
                 inverted
                 color="teal"
             >
-                {attendees && attendees.length} {attendees && attendees.length === 1 ? 'Person' : 'People'} Going
+                {attendees && attendees.length} {attendees && attendees.length === 1 ? 'Personne' : 'Personnes'}
             </Segment>
             <Segment attached>
                 <List relaxed divided>
@@ -25,7 +25,7 @@ const EventDetailedSidebar = ({attendees}) => {
                                 color="orange"
                                 ribbon="right"
                             >
-                                Host
+                                Organisateur
                             </Label>
                             }
                             <Item.Image size="tiny" src={attendee.photoURL} />

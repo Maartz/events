@@ -8,10 +8,9 @@ const EventDetailedChat = () => {
                 textAlign="center"
                 attached="top"
                 inverted
-                color="teal"
-                style={{border: 'none'}}
+                style={{border: 'none', color: '#fff', backgroundColor: '#53f'}}
             >
-                <Header>Chat about this event</Header>
+                <Header>Zone de discussion</Header>
             </Segment>
 
             <Segment attached>
@@ -80,7 +79,7 @@ const EventDetailedChat = () => {
                     <Form reply>
                         <Form.TextArea/>
                         <Button
-                            content="Add Reply"
+                            content="Répondre"
                             labelPosition="left"
                             icon="edit"
                             primary

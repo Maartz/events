@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import format from 'date-fns/format';
+import { fr } from 'date-fns/locale/fr';
 import {Button, Grid, Icon, Segment} from "semantic-ui-react";
 import EventDetailedMap from './EventDetailedMap';
+import {Emoji} from "emoji-mart";
 
 class EventDetailedInfo extends Component {
     state = {
@@ -22,12 +24,17 @@ class EventDetailedInfo extends Component {
 
     render() {
         const {event} = this.props;
+        const locale = require('date-fns/locale/fr');
+        let eventDate;
+        if(event.date){
+            eventDate = event.date.toDate();
+        }
         return (
             <Segment.Group>
                 <Segment attached="top">
                     <Grid>
                         <Grid.Column width={1}>
-                            <Icon size="large" color="teal" name="info"/>
+                            <Emoji set='google' emoji='information_source' size={25}/>
                         </Grid.Column>
                         <Grid.Column width={15}>
                             <p>{event.description}</p>
@@ -37,23 +44,25 @@ class EventDetailedInfo extends Component {
                 <Segment attached>
                     <Grid verticalAlign="middle">
                         <Grid.Column width={1}>
-                            <Icon name="calendar" size="large" color="teal"/>
+                            <Emoji native emoji='date' size={25}/>
                         </Grid.Column>
                         <Grid.Column width={15}>
-                            <span>{format(event.date, 'dddd Do MMM')} at {format(event.date, 'h:mm A')}</span>
+                            <span>Le {
+                                format(eventDate, 'dddd D MMMM', {locale: locale})} à {format(eventDate, 'H:mm', {locale: locale})}
+                            </span>
                         </Grid.Column>
                     </Grid>
                 </Segment>
                 <Segment attached>
                     <Grid verticalAlign="middle">
                         <Grid.Column width={1}>
-                            <Icon name="marker" size="large" color="teal"/>
+                            <Emoji native emoji='round_pushpin' size={25}/>
                         </Grid.Column>
                         <Grid.Column width={11}>
                             <span>{event.venue}</span>
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            <Button onClick={this.showMapToggle} color="blue" size="tiny" content={this.state.showMap ? 'Hide Map' : 'Show Map'}/>
+                            <Button onClick={this.showMapToggle} color="blue" size="tiny" content={this.state.showMap ? 'Cacher la carte' : 'Montrer la carte'}/>
                         </Grid.Column>
                     </Grid>
                 </Segment>
