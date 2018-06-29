@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {firestoreConnect, isLoaded, isEmpty} from 'react-redux-firebase'
-import {Grid} from 'semantic-ui-react'
+import {firestoreConnect} from 'react-redux-firebase'
+import {Grid, Button} from 'semantic-ui-react'
 import EventList from '../EventList/EventList';
 import {getEventsForDashboard} from "../EventActions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
@@ -18,23 +18,68 @@ const actions = {
 
 class EventDashboard extends Component {
 
-    componentDidMount() {
-        this.props.getEventsForDashboard();
+    state = {
+        moreEvents: false,
+        loadingInitial: true,
+        loadedEvents: []
+    };
+
+    async componentDidMount() {
+       let next = await this.props.getEventsForDashboard();
+        console.log({next});
+
+        if(next && next.docs && next.docs.length > 1) {
+            this.setState({
+                moreEvents: true,
+                loadingInitial: false
+            })
+        }
+    };
+
+    getNextEvents = async() => {
+        const {events} = this.props;
+        let lastEvents = events && events[events.length - 1];
+        console.log({lastEvents});
+        let next = await this.props.getEventsForDashboard(lastEvents);
+        console.log({next});
+
+        if(next && next.docs && next.docs.length <= 1) {
+            this.setState({
+                moreEvents: false
+            })
+        }
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props.events !== nextProps.events){
+            this.setState({
+                loadedEvents: [...this.state.loadedEvents, ...nextProps.events]
+            })
+        }
     }
+
 
     handleDeleteEvent = (eventId) => () => {
         this.props.deleteEvent(eventId);
     };
 
     render() {
-        const {events, loading} = this.props;
-        if(loading) return <LoadingComponent inverted={true}/>;
+        const {loading} = this.props;
+        if(this.state.loadingInitial) return <LoadingComponent inverted={true}/>;
         return (
             <Grid>
                 <Grid.Column width={10}>
                     <EventList
                         deleteEvent={this.handleDeleteEvent}
-                        events={events}
+                        events={this.state.loadedEvents}
+                    />
+                    <Button
+                        loading={loading}
+                        content='Plus'
+                        color='green'
+                        floated='right'
+                        onClick={this.getNextEvents}
+                        disabled={!this.state.moreEvents}
                     />
                 </Grid.Column>
                 <Grid.Column width={6}>
