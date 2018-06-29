@@ -3,7 +3,9 @@ import moment from 'moment';
 import {toastr} from 'react-redux-toastr';
 import cuid from 'cuid';
 import {asyncActionStart, asyncActionError, asyncActionFinish} from "../async/asyncActions";
+import firebase from '../../app/config/firebase';
 import {Emoji} from "emoji-mart";
+import {FETCH_EVENTS} from "../event/EventConstant";
 
 
 export const updateProfile = (user) => async (dispatch, getState, {getFirebase}) => {
@@ -124,9 +126,9 @@ export const goingToEvent = (event) =>
             });
             await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
                 eventId: event.id,
-                userId: user.uid,
+                userUid: user.uid,
                 eventDate: event.date,
-                host:false
+                host: false
             });
             toastr.success(
                 "Alright",
@@ -151,7 +153,7 @@ export const cancelGoingToEvent = (event) =>
 
         try {
             await firestore.update(`events/${event.id}`, {
-              [`attendees.${user.uid}`] : firestore.FieldValue.delete()
+                [`attendees.${user.uid}`]: firestore.FieldValue.delete()
             });
 
             await firestore.delete(`event_attendee/${event.id}_${user.uid}`);
@@ -169,4 +171,55 @@ export const cancelGoingToEvent = (event) =>
                 "Il semble y avoir un problème avec cet Events",
                 {icon: (<Emoji emoji='sweat_smile' size={45} native/>)})
         }
+    };
+
+export const getUserEvents = (userUid, activeTab) => async (dispatch, getState) => {
+    dispatch(asyncActionStart());
+    const firestore = firebase.firestore();
+    const today = new Date(Date.now());
+    let eventsRef = firestore.collection('event_attendee');
+    let query;
+
+    switch (activeTab) {
+        case 1: // past events
+            query = eventsRef
+                .where('userUid', '==', userUid)
+                .where('eventDate', '<=', today)
+                .orderBy('eventDate', 'desc');
+            break;
+        case 2: // future events
+            query = eventsRef
+                .where('userUid', '==', userUid)
+                .where('eventDate', '>=', today)
+                .orderBy('eventDate');
+            break;
+        case 3: // hosted events
+            query = eventsRef
+                .where('userUid', '==', userUid)
+                .where('host', '==', true)
+                .orderBy('eventDate', 'desc');
+            break;
+        default:
+            query = eventsRef.where('userUid', '==', userUid).orderBy('eventDate', 'desc');
     }
+
+    try {
+        let querySnap = await query.get();
+        let events = [];
+
+        for(let i = 0; i < querySnap.docs.length; i++){
+            let evt = await firestore.collection('events')
+                .doc(querySnap.docs[i]
+                    .data().eventId)
+                .get();
+            events.push({...evt.data(), id: evt.id});
+        }
+
+        dispatch({type: FETCH_EVENTS, payload: {events}});
+
+        dispatch(asyncActionFinish());
+    } catch (e) {
+        console.log(e);
+        dispatch(asyncActionError())
+    }
+}
