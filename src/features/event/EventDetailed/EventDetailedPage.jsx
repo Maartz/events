@@ -1,17 +1,19 @@
-import React, {Component} from 'react'
-import {Grid} from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import {toastr} from 'react-redux-toastr'
-import { withFirestore } from 'react-redux-firebase';
+import React, { Component } from 'react';
+import { Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { withFirestore, firebaseConnect, isEmpty } from 'react-redux-firebase';
+import { compose } from 'redux';
 import EventDetailedHeader from "./EventDetailedHeader";
 import EventDetailedInfo from "./EventDetailedInfo";
 import EventDetailedChat from "./EventDetailedChat";
 import EventDetailedSidebar from "./EventDetailedSidebar";
-import {Emoji} from "emoji-mart";
 import {objectToArray} from "../../../app/common/util/helpers";
 import {goingToEvent, cancelGoingToEvent} from "../../user/UserActions";
+import {addEventComment} from "../EventActions";
 
-const mapState = (state) => {
+// test: state.firebase.data.event_chat[ownProps.match.params.id]
+
+const mapState = (state, ownProps) => {
 
     let event = {};
 
@@ -21,13 +23,17 @@ const mapState = (state) => {
 
     return {
         event,
-        auth: state.firebase.auth
-    }
+        auth: state.firebase.auth,
+        eventChat:
+        !isEmpty(state.firebase.data.event_chat) &&
+        objectToArray(state.firebase.data.event_chat[ownProps.match.params.id])
+    };
 };
 
 const actions = {
     goingToEvent,
-    cancelGoingToEvent
+    cancelGoingToEvent,
+    addEventComment
 }
 
 class EventDetailedPage extends Component {
@@ -35,13 +41,6 @@ class EventDetailedPage extends Component {
     async componentDidMount() {
         const {firestore, match} = this.props;
         await firestore.setListener(`events/${match.params.id}`);
-       /* if(!event.exists) {
-            history.push('/events');
-            toastr.warning(
-                'Hum…',
-                "Il semble que cette Events n'existe pas.",
-                { icon: (<Emoji emoji='sweat_smile' size={45} native/>) });
-        }*/
     }
 
     async componentWillUnmount() {
@@ -51,7 +50,14 @@ class EventDetailedPage extends Component {
 
 
     render() {
-        const {event, auth, goingToEvent, cancelGoingToEvent} = this.props;
+        const {
+            event,
+            auth,
+            goingToEvent,
+            cancelGoingToEvent,
+            addEventComment,
+            eventChat
+        } = this.props;
         const attendees = event && event.attendees && objectToArray(event.attendees);
         const isHost = event.hostUid === auth.uid;
         const isGoing = attendees && attendees.some(a => a.id === auth.uid);
@@ -66,7 +72,11 @@ class EventDetailedPage extends Component {
                         cancelGoingToEvent={cancelGoingToEvent}
                     />
                     <EventDetailedInfo event={event}/>
-                    <EventDetailedChat/>
+                    <EventDetailedChat
+                        eventChat={eventChat}
+                        addEventComment={addEventComment}
+                        eventId={event.id}
+                    />
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <EventDetailedSidebar attendees={attendees}/>
@@ -77,4 +87,8 @@ class EventDetailedPage extends Component {
 
 }
 
-export default withFirestore(connect(mapState, actions)(EventDetailedPage));
+export default compose(
+    withFirestore,
+    connect(mapState, actions),
+    firebaseConnect(props => [`event_chat/${props.match.params.id}`])
+)(EventDetailedPage);
