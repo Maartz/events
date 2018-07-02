@@ -26,9 +26,7 @@ class HomePage extends Component {
                                     width: '100%',
                                     filter: 'grayscale(20%) brightness(0.6) opacity(80%)'
                                 }}
-                                 //src={video}
                                 src="https://firebasestorage.googleapis.com/v0/b/revents-206917.appspot.com/o/events.mp4?alt=media&token=8f6ce90b-8470-4220-8007-ae658a5c7ccf"
-                                //src='assets/video/events.mp4'
                                 muted={true}
                                 loop={true}
                                 autoPlay={true}
