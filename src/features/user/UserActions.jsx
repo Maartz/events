@@ -64,7 +64,7 @@ export const uploadProfilImage = (file, fileName) =>
             }, {
                 name: imageName,
                 url: downloadURL
-            })
+            });
             dispatch(asyncActionFinish());
         } catch (e) {
             console.log(e);

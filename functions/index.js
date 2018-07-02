@@ -9,53 +9,57 @@ const newActivity = (type, event, id) => {
         hostedBy: event.hostedBy,
         title: event.title,
         photoURL: event.hostPhotoURL,
-        timestampe: admin.firestore.FieldValue.serverTimestamp(),
+        timestamp: admin.firestore.FieldValue.serverTimestamp(),
         hostUid: event.hostUid,
         eventId: id
+    };
+};
+
+exports.createActivity = functions.firestore.document('events/{eventId}').onCreate(event => {
+    let newEvent = event.data();
+
+    console.log(newEvent);
+
+    const activity = newActivity('newEvent', newEvent, event.id);
+
+    console.log(activity);
+
+    return admin
+        .firestore()
+        .collection('activity')
+        .add(activity)
+        .then(docRef => {
+            return console.log('Activity created with id: ', docRef.id);
+        })
+        .catch(err => {
+            return console.log('Error adding activity', err);
+        });
+});
+
+exports.cancelActivity = functions.firestore.document('events/{eventId}').onUpdate((event, context) => {
+    let updatedEvent = event.after.data();
+    let previousEventData = event.before.data();
+    console.log({ event });
+    console.log({ context });
+    console.log({ updatedEvent });
+    console.log({ previousEventData });
+
+    if (!updatedEvent.cancelled || updatedEvent.cancelled === previousEventData.cancelled) {
+        return false;
     }
-}
 
-exports.createActivity = functions.firestore
-    .document('events/{eventId}')
-    .onCreate(event => {
-        let newEvent = event.data();
+    const activity = newActivity('cancelledEvent', updatedEvent, context.params.eventId);
 
-        console.log(newEvent);
+    console.log({ activity });
 
-        const activity = newActivity('newEvent', newEvent, event.id);
-
-        console.log({activity});
-
-        return admin.firestore().collection('activity')
-            .add(activity)
-            .then((docRef) => {
-                return console.log('Activity created with ID : ' + docRef.id);
-            })
-            .catch(e => {
-                return console.log('Error adding with activity', e);
-            })
-    });
-
-exports.cancelActivity = functions.firestore.document('events/{eventId}')
-    .onUpdate((event, context) => {
-        let updatedEvent = event.after.data();
-        let previousEventData = event.before.data();
-        console.log({event});
-        console.log({context});
-        console.log({updatedEvent});
-        console.log({previousEventData});
-
-        if (!updatedEvent.cancelled || updatedEvent.cancelled === previousEventData.cancelled) return false;
-
-        const activity = newActivity('cancelledEvent', updatedEvent, context.params.eventId);
-
-        console.log({activity});
-
-        return admin.firestore().collection('activity').add(activity)
-            .then((docRef) => {
-                return console.log('Activity created with ID : ' + docRef.id);
-            })
-            .catch(e => {
-                return console.log('Error adding with activity', e);
-            })
-    })
+    return admin
+        .firestore()
+        .collection('activity')
+        .add(activity)
+        .then(docRef => {
+            return console.log('Activity created with id: ', docRef.id);
+        })
+        .catch(err => {
+            return console.log('Error adding activity', err);
+        });
+});

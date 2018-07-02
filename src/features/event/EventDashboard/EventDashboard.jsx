@@ -11,7 +11,7 @@ const query = [
     {
         collection: 'activity',
         orderBy: ['timestamp', 'desc'],
-        limit: 5
+        limit: 6
     }
 ];
 
@@ -30,7 +30,8 @@ class EventDashboard extends Component {
     state = {
         moreEvents: false,
         loadingInitial: true,
-        loadedEvents: []
+        loadedEvents: [],
+        contextRef: {}
     };
 
     async componentDidMount() {
@@ -67,6 +68,8 @@ class EventDashboard extends Component {
         }
     }
 
+    handleContextRef = contextRef => this.setState({contextRef});
+
     render() {
         const {loading, activities} = this.props;
         const {moreEvents, loadedEvents} = this.state;
@@ -74,16 +77,18 @@ class EventDashboard extends Component {
         return (
             <Grid>
                 <Grid.Column width={10}>
-                    <EventList
-                        loading={loading}
-                        moreEvents={moreEvents}
-                        events={loadedEvents}
-                        getNextEvents={this.getNextEvents}
-                    />
+                    <div ref={this.handleContextRef}>
+                        <EventList
+                            loading={loading}
+                            moreEvents={moreEvents}
+                            events={loadedEvents}
+                            getNextEvents={this.getNextEvents}
+                        />
+                    </div>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <div className='shadow'>
-                        <EventActivity activities={activities}/>
+                    <div>
+                        <EventActivity contextRef={this.state.contextRef} activities={activities}/>
                     </div>
                 </Grid.Column>
                 <Grid.Column width={10}>
