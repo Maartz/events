@@ -29,3 +29,5 @@ yarn-error.log*
 # Google cloud functions
 
 functions/node_modules/**
+
+public/assets/video/
