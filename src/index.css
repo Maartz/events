@@ -102,7 +102,7 @@ body {
 }
 
 .ui.menu .item>img:not(.ui) {
-    margin-right: 1.5em !important;
+    /*margin-right: 1.5em !important;*/
 }
 
 .ui.menu:not(.vertical) .item>.button {

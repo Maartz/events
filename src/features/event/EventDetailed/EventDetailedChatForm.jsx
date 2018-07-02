@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {Button, Form} from "semantic-ui-react";
 import {Field, reduxForm} from 'redux-form'
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
+
 import TextArea from "../../../app/common/form/TextArea";
 
 class EventDetailedChatForm extends Component {
@@ -14,6 +17,10 @@ class EventDetailedChatForm extends Component {
         }
     };
 
+    addEmoji = () => {
+        // TODO
+    };
+
     render() {
         return (
             <Form onSubmit={this.props.handleSubmit(this.handleCommentSubmit)}>
@@ -23,6 +30,14 @@ class EventDetailedChatForm extends Component {
                     component={TextArea}
                     rows={2}
                 />
+                {/*<Picker*/}
+                    {/*title='Dites le avec un emoji…'*/}
+                    {/*emoji='point_up'*/}
+                    {/*set='apple'*/}
+                    {/*emojiTooltip*/}
+                    {/*perLine={12}*/}
+                    {/*onSelect={this.addEmoji}*/}
+                {/*/>*/}
                 <Button
                     content="Répondre"
                     labelPosition="left"

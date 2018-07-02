@@ -13,7 +13,7 @@ const query = [
         orderBy: ['timestamp', 'desc'],
         limit: 5
     }
-]
+];
 
 const mapState = (state) => ({
     events: state.events,

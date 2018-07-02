@@ -91,11 +91,11 @@ export const getEventsForDashboard = (lastEvent) =>
                 .where('date', '>=', today)
                     .orderBy('date')
                     .startAfter(startAfter)
-                    .limit(2)
+                    .limit(4)
                 : query = eventsRef
                 .where('date', '>=', today)
                     .orderBy('date')
-                    .limit(2);
+                    .limit(4);
 
             let querySnap = await query.get();
 

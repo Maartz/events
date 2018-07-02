@@ -11,9 +11,7 @@ class EventActivityItem extends Component {
                 return (
                     <div>
                         Nouvel Events ! {' '}
-                        <Feed.User as={Link}
-                                   to={{pathname: '/profile/' + activity.hostUid}}>{activity.hostedBy}</Feed.User> {' '}
-                        is hosting {' '}
+                        <Feed.User as={Link} to={{pathname: '/profile/' + activity.hostUid}}>Organisé par {' '} {activity.hostedBy}</Feed.User>
                         <Link to={{pathname: '/event/' + activity.eventId}}>{activity.title}</Link>
                     </div>
                 );
@@ -21,9 +19,7 @@ class EventActivityItem extends Component {
                 return (
                     <div>
                         Events Annulé ! {' '}
-                        <Feed.User as={Link}
-                                   to={{pathname: '/profile/' + activity.hostUid}}>{activity.hostedBy}</Feed.User> {' '}
-                        has cancelled {' '}
+                        <Feed.User as={Link} to={{pathname: '/profile/' + activity.hostUid}}>{activity.hostedBy}</Feed.User> {' '} a annulé {' '}
                         <Link to={{pathname: '/event/' + activity.eventId}}>{activity.title}</Link>
                     </div>
                 );
@@ -46,7 +42,8 @@ class EventActivityItem extends Component {
                         {this.renderSummary(activity)}
                     </Feed.Summary>
                     <Feed.Meta>
-                        <Feed.Date>Il y a {distanceInWordsToNow(activity.timestamp.toDate(), {locale: locale})} </Feed.Date>
+                        <Feed.Date>Il y
+                            a {distanceInWordsToNow(activity.timestamp.toDate(), {locale: locale})} </Feed.Date>
                     </Feed.Meta>
                 </Feed.Content>
             </Feed.Event>
