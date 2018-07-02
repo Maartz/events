@@ -25,3 +25,7 @@ yarn-error.log*
 
 # IntelliJ IDEA
 .idea
+
+# Google cloud functions
+
+functions/node_modules/**
