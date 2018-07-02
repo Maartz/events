@@ -10,8 +10,8 @@ class HomePage extends Component {
     render() {
         const {history, firebase} = this.props;
         // const storage = firebase.storage();
-        // const video = storage.ref('events.mp4').fullPath;
-        // console.log(storage.ref('events.mp4').fullPath);
+        // const video = storage.ref('events.mp4').toString();
+        // console.log(storage.ref('events.mp4').toString());
         return (
             <div>
                 <div style={{marginBottom: '285px'}}>
@@ -26,8 +26,9 @@ class HomePage extends Component {
                                     width: '100%',
                                     filter: 'grayscale(20%) brightness(0.6) opacity(80%)'
                                 }}
-                                // src={firebase.storage()}
-                                src='assets/video/events.mp4'
+                                 //src={video}
+                                src="https://firebasestorage.googleapis.com/v0/b/revents-206917.appspot.com/o/events.mp4?alt=media&token=8f6ce90b-8470-4220-8007-ae658a5c7ccf"
+                                //src='assets/video/events.mp4'
                                 muted={true}
                                 loop={true}
                                 autoPlay={true}
