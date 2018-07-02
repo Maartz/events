@@ -53,7 +53,7 @@ class NavBar extends Component {
                         <Button as={Link}
                                 to='/createEvent'
                                 floated="right"
-                                style={{background: '#53f' , color : '#fff'}}
+                                style={{background: '#53f' , color : '#fff', border: '2px solid white'}}
                                 content="Créer un Events"/>
                     </Menu.Item>}
                     {

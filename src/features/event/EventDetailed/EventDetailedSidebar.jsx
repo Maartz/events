@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 const EventDetailedSidebar = ({attendees}) => {
     const isHost = false;
     return (
-        <div>
+        <div className='shadow'>
             <Segment
                 textAlign="center"
                 style={{border: 'none', color: '#fff', backgroundColor: '#53f'}}

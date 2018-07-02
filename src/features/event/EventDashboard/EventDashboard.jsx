@@ -82,7 +82,9 @@ class EventDashboard extends Component {
                     />
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <EventActivity activities={activities}/>
+                    <div className='shadow'>
+                        <EventActivity activities={activities}/>
+                    </div>
                 </Grid.Column>
                 <Grid.Column width={10}>
                     <Loader active={loading}/>

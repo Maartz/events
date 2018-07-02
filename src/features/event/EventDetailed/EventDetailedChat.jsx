@@ -33,7 +33,7 @@ class EventDetailedChat extends Component {
         const locale = require('date-fns/locale/fr');
 
         return (
-            <div>
+            <div className='shadow'>
                 <Segment
                     textAlign="center"
                     attached="top"

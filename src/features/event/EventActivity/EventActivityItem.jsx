@@ -33,20 +33,20 @@ class EventActivityItem extends Component {
         const locale = require('date-fns/locale/fr');
 
         return (
-            <Feed.Event>
-                <Feed.Label>
-                    <img src={activity.photoURL || '/assets/user.png'} alt=''/>
-                </Feed.Label>
-                <Feed.Content>
-                    <Feed.Summary>
-                        {this.renderSummary(activity)}
-                    </Feed.Summary>
-                    <Feed.Meta>
-                        <Feed.Date>Il y
-                            a {distanceInWordsToNow(activity.timestamp.toDate(), {locale: locale})} </Feed.Date>
-                    </Feed.Meta>
-                </Feed.Content>
-            </Feed.Event>
+                <Feed.Event>
+                    <Feed.Label>
+                        <img src={activity.photoURL || '/assets/user.png'} alt=''/>
+                    </Feed.Label>
+                    <Feed.Content>
+                        <Feed.Summary>
+                            {this.renderSummary(activity)}
+                        </Feed.Summary>
+                        <Feed.Meta>
+                            <Feed.Date>Il y
+                                a {distanceInWordsToNow(activity.timestamp.toDate(), {locale: locale})} </Feed.Date>
+                        </Feed.Meta>
+                    </Feed.Content>
+                </Feed.Event>
         );
     }
 }
