@@ -20,7 +20,6 @@ class HomePage extends Component {
                         <div style={{position: 'relative'}}>
                             <video
                                 preload='auto'
-                                type='video/*'
                                 style={{
                                     position: 'absolute',
                                     width: '100%',
