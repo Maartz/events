@@ -6,19 +6,29 @@ import distanceInWords from 'date-fns/distance_in_words';
 
 
 class EventDetailedChat extends Component {
-
+    /**
+     *
+     * @type {{showReplyForm: boolean, selectedCommentId: null}}
+     */
     state = {
         showReplyForm: false,
         selectedCommentId: null
     };
 
+    /**
+     *
+     * @param id
+     * @returns {Function}
+     */
     handleOpenShowReplyForm = (id) => () => {
         this.setState({
             showReplyForm: true,
             selectedCommentId: id
         })
     };
-
+    /**
+     *
+     */
     handleCloseReplyForm = () => {
         this.setState({
             showReplyForm: false,
@@ -26,6 +36,10 @@ class EventDetailedChat extends Component {
         })
     };
 
+    /**
+     *
+     * @returns {*}
+     */
     render() {
 
         const {addEventComment, eventId, eventChat} = this.props;

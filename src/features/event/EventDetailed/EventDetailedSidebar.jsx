@@ -2,7 +2,17 @@ import React from 'react'
 import {Item, Label, List, Segment} from "semantic-ui-react";
 import {Link} from 'react-router-dom';
 
+/**
+ *
+ * @param attendees
+ * @returns {*}
+ * @constructor
+ */
 const EventDetailedSidebar = ({attendees}) => {
+    /**
+     *
+     * @type {boolean}
+     */
     const isHost = false;
     return (
         <div className='shadow'>

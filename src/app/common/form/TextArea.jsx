@@ -1,11 +1,18 @@
 import React from 'react'
 import {Form, Label} from 'semantic-ui-react'
 
-const TextArea = ({
-    input, rows, type, placeholder, meta : {
-        touched, error
-    }
-                  }) => {
+/**
+ *
+ * @param input
+ * @param rows
+ * @param type
+ * @param placeholder
+ * @param touched
+ * @param error
+ * @returns {*}
+ * @constructor
+ */
+const TextArea = ({input, rows, type, placeholder, meta: {touched, error}}) => {
     return (
         <Form.Field error={touched && !!error}>
             <textarea

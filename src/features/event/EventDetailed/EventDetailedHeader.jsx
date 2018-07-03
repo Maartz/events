@@ -4,10 +4,18 @@ import {Button, Header, Image, Item, Segment} from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 import {Emoji} from "emoji-mart";
 
+/**
+ *
+ * @type {{filter: string}}
+ */
 const eventImageStyle = {
     filter: 'brightness(30%)'
 };
 
+/**
+ *
+ * @type {{position: string, bottom: string, left: string, width: string, height: string, color: string}}
+ */
 const eventImageTextStyle = {
     position: 'absolute',
     bottom: '5%',
@@ -17,6 +25,16 @@ const eventImageTextStyle = {
     color: 'white'
 };
 
+/**
+ *
+ * @param event
+ * @param isGoing
+ * @param isHost
+ * @param goingToEvent
+ * @param cancelGoingToEvent
+ * @returns {*}
+ * @constructor
+ */
 const EventDetailedHeader = ({event, isGoing, isHost, goingToEvent, cancelGoingToEvent}) => {
     const locale = require('date-fns/locale/fr');
     let eventDate;

@@ -7,6 +7,10 @@ import {getEventsForDashboard} from "../EventActions";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import EventActivity from "../EventActivity/EventActivity";
 
+/**
+ *
+ * @type {*[]}
+ */
 const query = [
     {
         collection: 'activity',
@@ -15,18 +19,32 @@ const query = [
     }
 ];
 
+/**
+ *
+ * @param state
+ * @returns {{events: *, loading: *, activities: (string)}}
+ */
 const mapState = (state) => ({
     events: state.events,
     loading: state.async.loading,
     activities: state.firestore.ordered.activity
 });
 
+/**
+ *
+ * @type {{getEventsForDashboard: getEventsForDashboard}}
+ */
 const actions = {
     getEventsForDashboard,
 };
 
+
 class EventDashboard extends Component {
 
+    /**
+     *
+     * @type {{moreEvents: boolean, loadingInitial: boolean, loadedEvents: Array, contextRef: {}}}
+     */
     state = {
         moreEvents: false,
         loadingInitial: true,

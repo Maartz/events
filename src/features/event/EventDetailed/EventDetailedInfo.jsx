@@ -5,6 +5,10 @@ import EventDetailedMap from './EventDetailedMap';
 import {Emoji} from "emoji-mart";
 
 class EventDetailedInfo extends Component {
+    /**
+     *
+     * @type {{showMap: boolean}}
+     */
     state = {
         showMap: false
     };
@@ -21,6 +25,10 @@ class EventDetailedInfo extends Component {
         }))
     };
 
+    /**
+     *
+     * @returns {*}
+     */
     render() {
         const {event} = this.props;
         const locale = require('date-fns/locale/fr');

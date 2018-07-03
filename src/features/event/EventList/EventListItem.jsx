@@ -6,6 +6,7 @@ import EventListAttendee from './EventListAttendee';
 import {Emoji} from "emoji-mart";
 import {objectToArray} from "../../../app/common/util/helpers";
 
+
 class EventListItem extends Component {
     render() {
         const {event} = this.props;

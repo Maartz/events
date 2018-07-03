@@ -8,11 +8,25 @@ import {Emoji} from "emoji-mart";
 import moment from "moment";
 import firebase from '../../app/config/firebase';
 
+/**
+ *
+ * @param event
+ * @returns {Function}
+ */
 export const createEvent = (event) => {
     return async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
+        /**
+         *
+         * @type {firebase.User|{}|initialState.currentUser|currentUser|*}
+         */
         const user = firestore.auth().currentUser;
+
         const photoURL = getState().firebase.profile.photoURL;
+        /**
+         *
+         * @type {{hostUid: *, hostedBy: *, hostPhotoURL: (*|string), created: number, attendees: {}}}
+         */
         let newEvent = createNewEvent(user, photoURL, event);
         try {
             let createdEvent = await firestore.add(`events`, newEvent);
@@ -37,6 +51,11 @@ export const createEvent = (event) => {
     }
 };
 
+/**
+ *
+ * @param event
+ * @returns {Function}
+ */
 export const updateEvent = (event) => {
     return async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
@@ -58,6 +77,12 @@ export const updateEvent = (event) => {
 
 };
 
+/**
+ *
+ * @param cancelled
+ * @param eventId
+ * @returns {Function}
+ */
 export const cancelToggle = (cancelled, eventId) =>
     async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
@@ -73,10 +98,27 @@ export const cancelToggle = (cancelled, eventId) =>
         }
     };
 
+/**
+ *
+ * @param lastEvent
+ * @returns {Function}
+ */
 export const getEventsForDashboard = (lastEvent) =>
     async (dispatch, getState) => {
+        /**
+         *
+         * @type {Date}
+         */
         let today = new Date(Date.now());
+        /**
+         *
+         * @type {firebase.firestore.Firestore | *}
+         */
         const firestore = firebase.firestore();
+        /**
+         *
+         * @type {firebase.firestore.CollectionReference}
+         */
         const eventsRef = firestore.collection('events');
 
         try {
@@ -96,6 +138,10 @@ export const getEventsForDashboard = (lastEvent) =>
                     .orderBy('date')
                     .limit(4);
 
+            /**
+             *
+             * @type {firebase.firestore.QuerySnapshot}
+             */
             let querySnap = await query.get();
 
             if (querySnap.docs.length === 0) {
@@ -103,8 +149,13 @@ export const getEventsForDashboard = (lastEvent) =>
                 return;
             }
 
+            /**
+             *
+             * @type {Array}
+             */
             let events = [];
             // console.log(querySnap);
+
             for (let i = 0; i < querySnap.docs.length; i++) {
                 let evt = {...querySnap.docs[i].data(), id: querySnap.docs[i].id};
                 events.push(evt);
@@ -118,10 +169,21 @@ export const getEventsForDashboard = (lastEvent) =>
         }
     };
 
+/**
+ *
+ * @param eventId
+ * @param values
+ * @param parentId
+ * @returns {Function}
+ */
 export const addEventComment = (eventId, values, parentId) =>
     async (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
         const profile = getState().firebase.profile;
+        /**
+         *
+         * @type {firebase.User | null}
+         */
         const user = firebase.auth().currentUser;
         let newComment = {
             parentId,

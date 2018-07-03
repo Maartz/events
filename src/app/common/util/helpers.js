@@ -1,11 +1,23 @@
 import moment from 'moment';
 
+/**
+ *
+ * @param object
+ * @returns {any[]}
+ */
 export const objectToArray = (object) => {
     if(object) {
         return Object.entries(object).map(e => Object.assign(e[1], {id: e[0]}));
     }
 };
 
+/**
+ *
+ * @param user
+ * @param photoURL
+ * @param event
+ * @returns {{hostUid: *, hostedBy: *, hostPhotoURL: (*|string), created: number, attendees: {}}}
+ */
 export const createNewEvent = (user, photoURL, event) => {
     event.date = moment(event.date).toDate();
     return {
@@ -27,6 +39,11 @@ export const createNewEvent = (user, photoURL, event) => {
 };
 
 // From stack overflow :D
+/**
+ *
+ * @param dataset
+ * @returns {Array}
+ */
 export const createDataTree = dataset => {
     let hashTable = Object.create(null);
     dataset.forEach(a => hashTable[a.id] = {...a, childNodes: []});

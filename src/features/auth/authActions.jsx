@@ -4,6 +4,11 @@ import {SubmissionError, reset} from 'redux-form'
 import {toastr} from 'react-redux-toastr'
 import {closeModal} from "../modals/ModalActions";
 
+/**
+ *
+ * @param creds
+ * @returns {Function}
+ */
 export const login = (creds) => {
     return async (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
@@ -19,6 +24,11 @@ export const login = (creds) => {
     }
 };
 
+/**
+ *
+ * @param user
+ * @returns {Function}
+ */
 export const registerUser = (user) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
@@ -46,6 +56,11 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
     }
 };
 
+/**
+ *
+ * @param selectProvider
+ * @returns {Function}
+ */
 export const socialLogin = (selectProvider) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
@@ -68,6 +83,11 @@ export const socialLogin = (selectProvider) => async (dispatch, getState, {getFi
     }
 };
 
+/**
+ *
+ * @param creds
+ * @returns {Function}
+ */
 export const updatePassword = (creds) => async (dispatch, getState, {getFirebase}) => {
     const firebase = getFirebase();
     const user = firebase.auth().currentUser;

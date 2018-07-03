@@ -13,6 +13,10 @@ import TestComponent from "../../features/testarea/TestComponent";
 import ModalManager from "../../features/modals/ModalManager";
 
 class App extends Component {
+    /**
+     *
+     * @returns {*}
+     */
   render() {
     return (
       <div>

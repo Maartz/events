@@ -7,6 +7,10 @@ import thunk from 'redux-thunk';
 import firebase from '../config/firebase';
 
 // React redux firebase config
+/**
+ *
+ * @type {{userProfile: string, attachAuthIsReady: boolean, useFirestoreForProfile: boolean, updateProfileOnLogin: boolean}}
+ */
 const rrfConfig = {
     userProfile: 'users',
     attachAuthIsReady: true,
@@ -14,7 +18,11 @@ const rrfConfig = {
     updateProfileOnLogin: false
 }
 
-
+/**
+ *
+ * @param preloadState
+ * @returns {Store<any>}
+ */
 export const configureStore = (preloadState) => {
     const middlewares = [thunk.withExtraArgument({getFirebase, getFirestore})];
     const middlewareEnhancer = applyMiddleware(...middlewares);

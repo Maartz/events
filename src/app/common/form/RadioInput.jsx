@@ -1,6 +1,15 @@
 import React from 'react'
 import {Form} from 'semantic-ui-react'
 
+/**
+ *
+ * @param input
+ * @param width
+ * @param type
+ * @param label
+ * @returns {*}
+ * @constructor
+ */
 const RadioInput = ({input, width, type, label}) => {
     return (
         <Form.Field>

@@ -9,7 +9,10 @@ import ModalReducer from "../../features/modals/ModalReducer";
 import authReducer from "../../features/auth/authReducer";
 import asyncReducer from "../../features/async/asyncReducer";
 
-
+/**
+ *
+ * @type {Reducer<any>}
+ */
 const rootReducer = combineReducers({
     firebase: firebaseReducer,
     firestore: firestoreReducer,

@@ -7,9 +7,14 @@ import TextInput from "../../../app/common/form/TextInput";
 import {registerUser} from "../authActions";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
+/**
+ *
+ * @type {{registerUser: registerUser}}
+ */
 const actions = {
     registerUser
 };
+
 
 const validate = combineValidators({
     displayName: isRequired({message: 'Quel est votre nom, ou bien votre pseudo ?'}),
@@ -17,6 +22,16 @@ const validate = combineValidators({
     password: isRequired({message: 'Un joli mot de passe d\'au moins 6 caractères, c\'est pour votre sécurité'})
 });
 
+/**
+ *
+ * @param handleSubmit
+ * @param registerUser
+ * @param error
+ * @param invalid
+ * @param submitting
+ * @returns {*}
+ * @constructor
+ */
 const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) => {
     return (
         <div>

@@ -3,6 +3,10 @@ import {Form, Label} from 'semantic-ui-react';
 import Script from 'react-load-script';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
+/**
+ *
+ * @type {{autocompleteContainer: {zIndex: number}}}
+ */
 const styles = {
     autocompleteContainer: {
         zIndex: 1000
@@ -10,18 +14,26 @@ const styles = {
 };
 
 class PlaceInput extends Component {
+    /**
+     *
+     * @type {{scriptLoaded: boolean}}
+     */
     state = {
         scriptLoaded: false
     };
 
+    /**
+     *
+     * @returns {void|*}
+     */
     handleScriptLoaded = () => this.setState({scriptLoaded: true});
 
+    /**
+     *
+     * @returns {*}
+     */
     render() {
-        const {
-            input, width, onSelect, placeholder, options, meta: {
-                touched, error
-            }
-        } = this.props;
+        const {input, width, onSelect, placeholder, options, meta: {touched, error}} = this.props;
         return (
             <Form.Field
                 error={touched && !!error}

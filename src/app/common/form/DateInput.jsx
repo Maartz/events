@@ -4,6 +4,20 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
 import moment from 'moment'
 
+/**
+ *
+ * @param value
+ * @param onChange
+ * @param onBlur
+ * @param restInput
+ * @param width
+ * @param placeholder
+ * @param touched
+ * @param error
+ * @param rest
+ * @returns {*}
+ * @constructor
+ */
 const DateInput = ({
         input :{
             value,

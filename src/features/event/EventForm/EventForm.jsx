@@ -14,9 +14,17 @@ import DateInput from "../../../app/common/form/DateInput";
 import PlaceInput from "../../../app/common/form/PlaceInput";
 import {withFirestore} from "react-redux-firebase";
 
+/**
+ *
+ * @param state
+ * @returns {{initialValues, event}}
+ */
 const mapState = (state) => {
 
-
+    /**
+     *
+     * @type {{}}
+     */
     let event = {};
 
     if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
@@ -29,13 +37,20 @@ const mapState = (state) => {
     }
 };
 
+/**
+ *
+ * @type {{createEvent: createEvent, updateEvent: updateEvent, cancelToggle: cancelToggle}}
+ */
 const actions = {
     createEvent,
     updateEvent,
     cancelToggle
 };
 
-
+/**
+ *
+ * @type {*[]}
+ */
 const category = [
     {key: 'outing', text: 'Sortie', value: 'Sortie'},
     {key: 'culture', text: 'Culture', value: 'Culture'},
@@ -51,7 +66,6 @@ const category = [
     {key: 'danse', text: 'Danse', value: 'Danse'}
 ];
 
-
 const validate = combineValidators({
     title: isRequired({message: 'Votre Events doit avoir un titre'}),
     category: isRequired({message: 'Vous devez renseigner une catégorie'}),
@@ -66,6 +80,10 @@ const validate = combineValidators({
 
 class EventForm extends Component {
 
+    /**
+     *
+     * @type {{cityLatLng: {}, venueLatLng: {}, scriptLoaded: boolean}}
+     */
     state = {
         cityLatLng: {},
         venueLatLng: {},
@@ -73,20 +91,35 @@ class EventForm extends Component {
     };
 
     // Listen to change asyn on firestore events
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async componentDidMount() {
         const {firestore, match} = this.props;
         await firestore.setListener(`events/${match.params.id}`);
     }
 
     // Kill listening from previous method
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async componentWillUnmount() {
         const {firestore, match} = this.props;
         await firestore.unsetListener(`events/${match.params.id}`);
     }
 
-
+    /**
+     *
+     * @returns {void|*}
+     */
     handleScriptLoaded = () => this.setState({scriptLoaded: true});
 
+    /**
+     *
+     * @param selectedCity
+     */
     handleCitySelect = (selectedCity) => {
         geocodeByAddress(selectedCity)
             .then(results => getLatLng(results[0]))
@@ -100,6 +133,10 @@ class EventForm extends Component {
             })
     };
 
+    /**
+     *
+     * @param selectedVenue
+     */
     handleVenueSelect = (selectedVenue) => {
         geocodeByAddress(selectedVenue)
             .then(results => getLatLng(results[0]))
@@ -113,6 +150,10 @@ class EventForm extends Component {
             })
     };
 
+    /**
+     *
+     * @param values
+     */
     onFormSubmit = values => {
         values.venueLatLng = this.state.venueLatLng;
         if (this.props.initialValues.id) {
@@ -128,7 +169,12 @@ class EventForm extends Component {
         }
     };
 
+    /**
+     * 
+     * @returns {*}
+     */
     render() {
+
         const {invalid, submitting, pristine, event, cancelToggle } = this.props;
         return (
             <Grid>

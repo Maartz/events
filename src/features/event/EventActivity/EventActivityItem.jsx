@@ -3,6 +3,7 @@ import { Feed } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
+
 class EventActivityItem extends Component {
     renderSummary = activity => {
         switch (activity.type) {
@@ -31,8 +32,17 @@ class EventActivityItem extends Component {
         }
     };
 
+    /**
+     *
+     * @returns {*}
+     */
     render() {
         const { activity } = this.props;
+        
+        /**
+         *
+         * @type {module:date-fns/locale/fr}
+         */
         const locale = require('date-fns/locale/fr');
 
         return (

@@ -6,11 +6,24 @@ import TextInput from '../../../app/common/form/TextInput';
 import {login, socialLogin} from "../authActions";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
+/**
+ *
+ * @type {{login: login, socialLogin: socialLogin}}
+ */
 const actions = {
     login,
     socialLogin
 };
 
+/**
+ * 
+ * @param login
+ * @param handleSubmit
+ * @param error
+ * @param socialLogin
+ * @returns {*}
+ * @constructor
+ */
 const LoginForm = ({login, handleSubmit, error, socialLogin}) => {
     return (
         <Form size="large" onSubmit={handleSubmit(login)}>

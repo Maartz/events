@@ -42,6 +42,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "prettier": "1.13.7",
     "redux-devtools-extension": "^2.13.2",
     "source-map-explorer": "^1.5.0"
   }

@@ -13,8 +13,18 @@ import {addEventComment} from "../EventActions";
 
 // test: state.firebase.data.event_chat[ownProps.match.params.id]
 
+/**
+ *
+ * @param state
+ * @param ownProps
+ * @returns {{event, auth: *, eventChat: (boolean|any[])}}
+ */
 const mapState = (state, ownProps) => {
 
+    /**
+     *
+     * @type {{}}
+     */
     let event = {};
 
     if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
@@ -30,6 +40,10 @@ const mapState = (state, ownProps) => {
     };
 };
 
+/**
+ *
+ * @type {{goingToEvent: goingToEvent, cancelGoingToEvent: cancelGoingToEvent, addEventComment: addEventComment}}
+ */
 const actions = {
     goingToEvent,
     cancelGoingToEvent,
@@ -38,11 +52,19 @@ const actions = {
 
 class EventDetailedPage extends Component {
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async componentDidMount() {
         const {firestore, match} = this.props;
         await firestore.setListener(`events/${match.params.id}`);
     }
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async componentWillUnmount() {
         const {firestore, match} = this.props;
         await firestore.unsetListener(`events/${match.params.id}`);
@@ -58,10 +80,27 @@ class EventDetailedPage extends Component {
             addEventComment,
             eventChat
         } = this.props;
+        /**
+         *
+         * @type {*|{}|attendees|*[]|any[]}
+         */
         const attendees = event && event.attendees && objectToArray(event.attendees);
+        /**
+         *
+         * @type {boolean}
+         */
         const isHost = event.hostUid === auth.uid;
+        /**
+         *
+         * @type {*|{}|attendees|*[]|any[]|boolean}
+         */
         const isGoing = attendees && attendees.some(a => a.id === auth.uid);
+        /**
+         *
+         * @type {boolean|Array}
+         */
         const chatTree = !isEmpty(eventChat) && createDataTree(eventChat);
+
         return (
             <Grid>
                 <Grid.Column width={10}>
