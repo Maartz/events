@@ -4,8 +4,15 @@ import {Emoji} from "emoji-mart";
 import {Link} from "react-router-dom";
 
 
-
-const UserDetailedSidebar = ({isCurrentUser}) => {
+/**
+ *
+ * @param isCurrentUser
+ * @param profile
+ * @param followUser
+ * @returns {*}
+ * @constructor
+ */
+const UserDetailedSidebar = ({isCurrentUser, profile, followUser}) => {
     return (
         <Grid.Column width={4}>
             <Segment>
@@ -19,7 +26,7 @@ const UserDetailedSidebar = ({isCurrentUser}) => {
                 ) : (
                     <Button style={{background: '#fff', color: '#53f'}} fluid animated='fade'>
                         <Button.Content visible>Suivre</Button.Content>
-                        <Button.Content as={Link} to='/settings' hidden>
+                        <Button.Content onClick={() => followUser(profile)} hidden>
                             <Emoji emoji='sunglasses' size={25} native/>
                         </Button.Content>
                     </Button>

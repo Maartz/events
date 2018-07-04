@@ -22,7 +22,11 @@ const UserDetailedDescription = ({profile}) => {
                         <p>Je suis: <strong>{profile.occupation || 'Non renseigné'}</strong></p>
                         <p>Originaire de <strong>{profile.origin || 'Non renseigné'}</strong></p>
                         <p>Membre depuis : <strong>{createdAt}</strong></p>
-                        <p>{profile.description}</p>
+                        <hr/>
+                        <Header>
+                            Description :
+                        </Header>
+                        <p>{profile.about}</p>
 
                     </Grid.Column>
                     <Grid.Column width={6}>

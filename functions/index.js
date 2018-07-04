@@ -2,6 +2,13 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+/**
+ *
+ * @param type
+ * @param event
+ * @param id
+ * @returns {{type: *, eventDate: *, hostedBy: (*|string), title: *, photoURL: (*|string), timestamp: firebase.firestore.FieldValue | *, hostUid: *, eventId: *}}
+ */
 const newActivity = (type, event, id) => {
     return {
         type: type,
@@ -15,6 +22,10 @@ const newActivity = (type, event, id) => {
     };
 };
 
+/**
+ *
+ * @type {CloudFunction<DocumentSnapshot>}
+ */
 exports.createActivity = functions.firestore.document('events/{eventId}').onCreate(event => {
     let newEvent = event.data();
 
@@ -36,13 +47,17 @@ exports.createActivity = functions.firestore.document('events/{eventId}').onCrea
         });
 });
 
+/**
+ *
+ * @type {CloudFunction<Change<DocumentSnapshot>>}
+ */
 exports.cancelActivity = functions.firestore.document('events/{eventId}').onUpdate((event, context) => {
     let updatedEvent = event.after.data();
     let previousEventData = event.before.data();
-    console.log({ event });
-    console.log({ context });
-    console.log({ updatedEvent });
-    console.log({ previousEventData });
+    console.log({event});
+    console.log({context});
+    console.log({updatedEvent});
+    console.log({previousEventData});
 
     if (!updatedEvent.cancelled || updatedEvent.cancelled === previousEventData.cancelled) {
         return false;
@@ -50,7 +65,7 @@ exports.cancelActivity = functions.firestore.document('events/{eventId}').onUpda
 
     const activity = newActivity('cancelledEvent', updatedEvent, context.params.eventId);
 
-    console.log({ activity });
+    console.log({activity});
 
     return admin
         .firestore()
@@ -63,3 +78,39 @@ exports.cancelActivity = functions.firestore.document('events/{eventId}').onUpda
             return console.log('Error adding activity', err);
         });
 });
+
+/**
+ *
+ * @type {CloudFunction<DocumentSnapshot>}
+ */
+exports.userFollowing = functions.firestore
+    .document('users/{followerUid}/following/{followingUid}')
+    .onCreate((event, context) => {
+        console.log('v1');
+        const followerUid = context.params.followerUid;
+        const followingUid = context.params.followingUid;
+
+        const followerDoc = admin
+            .firestore()
+            .collection('users')
+            .doc(followerUid);
+
+        console.log(followerDoc);
+
+        return followerDoc.get().then(doc => {
+            let userData = doc.data();
+            console.log({ userData });
+            let follower = {
+                displayName: userData.displayName,
+                photoURL: userData.photoURL || '/assets/user.png',
+                city: userData.city || 'unknown city'
+            };
+            return admin
+                .firestore()
+                .collection('users')
+                .doc(followingUid)
+                .collection('followers')
+                .doc(followerUid)
+                .set(follower);
+        });
+    });
