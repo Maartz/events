@@ -5,6 +5,11 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { Grid, Segment, Header, Card } from 'semantic-ui-react';
 import PersonCard from './PersonCard';
 
+/**
+ *
+ * @param auth
+ * @returns {*[]}
+ */
 const query = ({auth}) => {
     return [
         {
@@ -22,12 +27,24 @@ const query = ({auth}) => {
     ]
 };
 
+/**
+ *
+ * @param state
+ * @returns {{followings: *, followers: *, auth: *}}
+ */
 const mapState = state => ({
     followings: state.firestore.ordered.following,
     followers: state.firestore.ordered.followers,
     auth: state.firebase.auth
 })
 
+/**
+ *
+ * @param followings
+ * @param followers
+ * @returns {*}
+ * @constructor
+ */
 const PeopleDashboard = ({followings, followers}) => {
     return (
         <Grid>

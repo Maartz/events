@@ -99,7 +99,7 @@ exports.userFollowing = functions.firestore
 
         return followerDoc.get().then(doc => {
             let userData = doc.data();
-            console.log({ userData });
+            console.log({userData});
             let follower = {
                 displayName: userData.displayName,
                 photoURL: userData.photoURL || '/assets/user.png',
@@ -113,4 +113,24 @@ exports.userFollowing = functions.firestore
                 .doc(followerUid)
                 .set(follower);
         });
+    });
+
+/**
+ *
+ * @type {CloudFunction<DocumentSnapshot>}
+ */
+exports.unFollowUser = functions.firestore
+    .document('users/{followerUid}/following/{followingUid}')
+    .onDelete((event, context) => {
+        return admin
+            .firestore()
+            .collection('users')
+            .doc(context.params.followingUid)
+            .collection('followers')
+            .doc(context.params.followerUid)
+            .delete()
+            .then(() => {
+                return console.log('document deleted');
+            })
+            .catch(err => console.log(err))
     });

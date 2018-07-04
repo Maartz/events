@@ -11,9 +11,15 @@ import UserDetailedSidebar from "./UserDetailedSidebar";
 import UserDetailedPhoto from "./UserDetailedPhoto";
 import UserDetailedEvents from "./UserDetailedEvents";
 import {userDetailledQuery} from "../UserQueries";
-import {followUser, getUserEvents} from "../UserActions";
+import {followUser, getUserEvents, unFollowUser} from "../UserActions";
 
 
+/**
+ *
+ * @param state
+ * @param ownProps
+ * @returns {{profile: *, userUid: *, events: *, eventsLoading: *, auth: *, photos: *, requesting: *, following: *}}
+ */
 const mapState = (state, ownProps) => {
     let userUid = null;
     let profile = {};
@@ -32,31 +38,52 @@ const mapState = (state, ownProps) => {
         eventsLoading: state.async.loading,
         auth: state.firebase.auth,
         photos: state.firestore.ordered.photos,
-        requesting: state.firestore.status.requesting
+        requesting: state.firestore.status.requesting,
+        following: state.firestore.ordered.following
     }
 };
 
+/**
+ *
+ * @type {{getUserEvents: getUserEvents, followUser: followUser}}
+ */
 const actions = {
     getUserEvents,
-    followUser
+    followUser,
+    unFollowUser
 };
+
 
 class UserDetailedPage extends Component {
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     async componentDidMount() {
         let events = await this.props.getUserEvents(this.props.userUid);
         console.log(events);
     }
 
+    /**
+     *
+     * @param evt
+     * @param data
+     */
     changeTab = (evt, data) => {
         //console.log(data);
         this.props.getUserEvents(this.props.userUid, data.activeIndex);
     };
 
+    /**
+     *
+     * @returns {*}
+     */
     render() {
-        const {profile, auth, photos, match, requesting, events, eventsLoading, followUser} = this.props;
+        const {profile, auth, photos, match, requesting, events, eventsLoading, followUser, following, unFollowUser} = this.props;
         const isCurrentUser = auth.uid === match.params.id;
         const loading = Object.values(requesting).some(a => a === true);
+        const isFollowing = !isEmpty(following);
 
         if (loading) return <LoadingComponent inverted={true}/>;
 
@@ -64,7 +91,13 @@ class UserDetailedPage extends Component {
             <Grid>
                 <UserDetailedHeader profile={profile}/>
                 <UserDetailedDescription profile={profile}/>
-                <UserDetailedSidebar profile={profile} followUser={followUser} isCurrentUser={isCurrentUser}/>
+                <UserDetailedSidebar
+                    isFollowing={isFollowing}
+                    unFollowUser={unFollowUser}
+                    profile={profile}
+                    followUser={followUser}
+                    isCurrentUser={isCurrentUser}
+                />
                 {photos && photos.length > 0 &&
                 <UserDetailedPhoto photos={photos}/>}
                 <UserDetailedEvents changeTab={this.changeTab} events={events} eventsLoading={eventsLoading}/>
@@ -75,5 +108,5 @@ class UserDetailedPage extends Component {
 
 export default compose(
     connect(mapState, actions),
-    firestoreConnect((auth, userUid) => userDetailledQuery(auth, userUid))
+    firestoreConnect((auth, userUid, match) => userDetailledQuery(auth, userUid, match))
 )(UserDetailedPage);

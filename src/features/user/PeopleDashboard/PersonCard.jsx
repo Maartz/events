@@ -2,6 +2,12 @@ import React from 'react';
 import {Card, Image} from "semantic-ui-react";
 import {Link} from 'react-router-dom';
 
+/**
+ *
+ * @param user
+ * @returns {*}
+ * @constructor
+ */
 const PersonCard = ({user}) => {
     return (
         <Card as={Link} to={`/profile/${user.id}`}>

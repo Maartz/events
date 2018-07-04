@@ -8,6 +8,11 @@ import {Emoji} from "emoji-mart";
 import {FETCH_EVENTS} from "../event/EventConstant";
 
 
+/**
+ *
+ * @param user
+ * @returns {Function}
+ */
 export const updateProfile = (user) => async (dispatch, getState, {getFirebase}) => {
     const firebase = getFirebase();
     const {isLoaded, isEmpty, ...updateUser} = user;
@@ -29,6 +34,12 @@ export const updateProfile = (user) => async (dispatch, getState, {getFirebase})
     }
 };
 
+/**
+ *
+ * @param file
+ * @param fileName
+ * @returns {Function}
+ */
 export const uploadProfilImage = (file, fileName) =>
     async (dispatch, getState, {getFirebase, getFirestore}) => {
         const imageName = cuid();
@@ -73,6 +84,11 @@ export const uploadProfilImage = (file, fileName) =>
         }
     };
 
+/**
+ *
+ * @param photo
+ * @returns {Function}
+ */
 export const deletePhoto = (photo) =>
     async (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
@@ -93,6 +109,11 @@ export const deletePhoto = (photo) =>
     };
 
 
+/**
+ *
+ * @param photo
+ * @returns {Function}
+ */
 export const setMainPhoto = (photo) =>
     async (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
@@ -107,6 +128,11 @@ export const setMainPhoto = (photo) =>
 
     };
 
+/**
+ *
+ * @param event
+ * @returns {Function}
+ */
 export const goingToEvent = (event) =>
     async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
@@ -146,6 +172,11 @@ export const goingToEvent = (event) =>
         }
     };
 
+/**
+ *
+ * @param event
+ * @returns {Function}
+ */
 export const cancelGoingToEvent = (event) =>
     async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
@@ -173,6 +204,12 @@ export const cancelGoingToEvent = (event) =>
         }
     };
 
+/**
+ *
+ * @param userUid
+ * @param activeTab
+ * @returns {Function}
+ */
 export const getUserEvents = (userUid, activeTab) => async (dispatch, getState) => {
     dispatch(asyncActionStart());
     const firestore = firebase.firestore();
@@ -224,6 +261,11 @@ export const getUserEvents = (userUid, activeTab) => async (dispatch, getState) 
     }
 };
 
+/**
+ *
+ * @param userToFollow
+ * @returns {Function}
+ */
 export const followUser = userToFollow => async (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     const user = firestore.auth().currentUser;
@@ -245,4 +287,23 @@ export const followUser = userToFollow => async (dispatch, getState, {getFiresto
     } catch (e) {
         console.log(e);
     }
-}
+};
+
+/**
+ *
+ * @param userToUnfollow
+ * @returns {Function}
+ */
+export const unFollowUser = userToUnfollow => async (dispatch, getState, {getFirestore}) => {
+    const firestore = getFirestore();
+    const user = firestore.auth().currentUser;
+    try {
+        await firestore.delete({
+            collection: 'users',
+            doc: user.uid,
+            subcollections: [{collection: 'following', doc: userToUnfollow.id}]
+        })
+    } catch (e) {
+        console.log(e);
+    }
+};
