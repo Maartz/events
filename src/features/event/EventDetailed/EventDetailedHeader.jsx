@@ -35,7 +35,7 @@ const eventImageTextStyle = {
  * @returns {*}
  * @constructor
  */
-const EventDetailedHeader = ({event, isGoing, isHost, goingToEvent, cancelGoingToEvent}) => {
+const EventDetailedHeader = ({event, isGoing, isHost, goingToEvent, cancelGoingToEvent, loading}) => {
     const locale = require('date-fns/locale/fr');
     let eventDate;
     if(event.date){
@@ -79,6 +79,7 @@ const EventDetailedHeader = ({event, isGoing, isHost, goingToEvent, cancelGoingT
                             </Button>
                             :
                             <Button
+                                loading={loading}
                                 onClick={() => goingToEvent(event)}
                                 animated='fade'
                                 style={{backgroundColor: '#53f', color : '#FFF'}}

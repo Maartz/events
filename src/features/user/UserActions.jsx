@@ -168,9 +168,10 @@ export const setMainPhoto = (photo) =>
  * @returns {Function}
  */
 export const goingToEvent = (event) =>
-    async (dispatch, getState, {getFirestore}) => {
-        const firestore = getFirestore();
-        const user = firestore.auth().currentUser;
+    async (dispatch, getState) => {
+        dispatch(asyncActionStart());
+        const firestore = firebase.firestore();
+        const user = firebase.auth().currentUser;
         const photoURL = getState().firebase.profile.photoURL;
         const attendee = {
             going: true,
@@ -181,15 +182,23 @@ export const goingToEvent = (event) =>
         };
 
         try {
-            await firestore.update(`events/${event.id}`, {
-                [`attendees.${user.uid}`]: attendee
+            let eventDocRef = firestore.collection('events').doc(event.id);
+            let eventAttendeeDocRef = firestore.collection('event_attendee').doc(`${event.id}_${user.uid}`);
+
+            await firestore.runTransaction( async transaction => {
+               await transaction.get(eventDocRef);
+               await transaction.update(eventDocRef, {
+                   [`attendees.${user.uid}`]: attendee
+               });
+                await transaction.set(eventAttendeeDocRef, {
+                    eventId: event.id,
+                    userUid: user.uid,
+                    eventDate: event.date,
+                    host: false
+                });
             });
-            await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
-                eventId: event.id,
-                userUid: user.uid,
-                eventDate: event.date,
-                host: false
-            });
+
+            dispatch(asyncActionFinish());
             toastr.success(
                 "Alright",
                 "Vous êtes bien inscrit à l'Events!",
@@ -197,6 +206,7 @@ export const goingToEvent = (event) =>
             );
 
         } catch (e) {
+            dispatch(asyncActionError());
             console.log(e);
             toastr.error(
                 "Aïe!",
