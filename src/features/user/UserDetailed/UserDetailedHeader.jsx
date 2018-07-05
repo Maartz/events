@@ -3,6 +3,12 @@ import {Grid, Header, Item, Segment} from "semantic-ui-react";
 import differenceInYears from 'date-fns/difference_in_years';
 import {Emoji} from "emoji-mart";
 
+/**
+ *
+ * @param profile
+ * @returns {*}
+ * @constructor
+ */
 const UserDetailedHeader = ({profile}) => {
 
     let age;

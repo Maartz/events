@@ -3,6 +3,12 @@ import format from 'date-fns/format';
 import {Grid, Header, Item, List, Segment} from "semantic-ui-react";
 import {Emoji} from "emoji-mart";
 
+/**
+ *
+ * @param profile
+ * @returns {*}
+ * @constructor
+ */
 const UserDetailedDescription = ({profile}) => {
 
     let createdAt;

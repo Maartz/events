@@ -3,6 +3,12 @@ import {Header, Segment, Grid, Image} from "semantic-ui-react";
 import {Emoji} from "emoji-mart";
 import LazyLoad from 'react-lazyload';
 
+/**
+ *
+ * @param photos
+ * @returns {*}
+ * @constructor
+ */
 const UserDetailedPhoto = ({photos}) => {
     return (
         <Grid.Column width={12}>

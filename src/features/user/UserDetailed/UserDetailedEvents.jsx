@@ -1,9 +1,13 @@
 import React from 'react'
-import {Grid, Card, Header, Image, Menu, Segment, Tab} from "semantic-ui-react";
+import {Grid, Card, Header, Image, Segment, Tab} from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 import {Emoji} from "emoji-mart";
 import format from 'date-fns/format';
 
+/**
+ *
+ * @type {*[]}
+ */
 const panes = [
     {menuItem: 'Tous les Events', pane: {key: 'allEvents'}},
     {menuItem: 'Anciens Events', pane: {key: 'pastEvents'}},
@@ -11,7 +15,14 @@ const panes = [
     {menuItem: 'Events Crées', pane: {key: 'hosted'}},
 ];
 
-
+/**
+ *
+ * @param events
+ * @param eventsLoading
+ * @param changeTab
+ * @returns {*}
+ * @constructor
+ */
 const UserDetailedEvents = ({events, eventsLoading, changeTab}) => {
     return (
         <Grid.Column width={12}>

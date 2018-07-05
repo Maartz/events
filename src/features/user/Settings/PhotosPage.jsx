@@ -180,6 +180,7 @@ class PhotosPage extends Component {
                             />
                             <div className='ui two buttons'>
                                 <Button
+                                    loading={loading}
                                     onClick={this.handleSetMainPhoto(photo)}
                                     inverted
                                     style={{color: '#53f'}}

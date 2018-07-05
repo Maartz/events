@@ -7,6 +7,7 @@ import {createNewEvent} from "../../app/common/util/helpers";
 import {Emoji} from "emoji-mart";
 import moment from "moment";
 import firebase from '../../app/config/firebase';
+import compareAsc from 'date-fns/compare_asc';
 
 /**
  *
@@ -57,18 +58,44 @@ export const createEvent = (event) => {
  * @returns {Function}
  */
 export const updateEvent = (event) => {
-    return async (dispatch, getState, {getFirestore}) => {
-        const firestore = getFirestore();
-        if (event.date !== getState().firestore.ordered.events[0].date) {
+    return async (dispatch, getState) => {
+        dispatch(asyncActionStart())
+        const firestore = firebase.firestore();
+        if(event.date !== getState().firestore.ordered.events[0].date){
             event.date = moment(event.date).toDate();
         }
         try {
-            await firestore.update(`events/${event.id}`, event);
+            let eventDocRef = firestore.collection('events').doc(event.id);
+            let dateEqual = compareAsc(getState().firestore.ordered.events[0].date.toDate(), event.date);
+
+            if (dateEqual === 0) {
+                let batch = firestore.batch();
+                await batch.update(eventDocRef, event);
+
+                let eventAttendeeRef = firestore.collection('event_attendee');
+                let eventAttendeeQuery = await eventAttendeeRef.where('eventId', '==', event.id);
+                let eventAttendeeQuerySnap = await eventAttendeeQuery.get();
+
+                for (let i = 0; i < eventAttendeeQuerySnap.docs.length; i++) {
+                    let eventAttendeeDocRef = await firestore
+                        .collection('event_attendee')
+                        .doc(eventAttendeeQuerySnap.docs[i].id);
+
+                    await batch.update(eventAttendeeDocRef, {
+                        eventDate: event.date
+                    })
+                }
+                await batch.commit();
+            } else {
+                await eventDocRef.update(event);
+            }
+            dispatch(asyncActionFinish());
             toastr.success("Yes!", "Votre Events à été mis à jour", {
                 icon: (<Emoji emoji='thumbsup' size={45} native/>)
             });
         } catch (e) {
             console.log(e);
+            dispatch(asyncActionError());
             toastr.error("Mamamia!", "Il semble y avoir un problème", {
                 icon: (<Emoji emoji='cold_sweat' size={45} native/>)
             });
@@ -129,12 +156,12 @@ export const getEventsForDashboard = (lastEvent) =>
 
             lastEvent
                 ? query = eventsRef
-                .where('date', '>=', today)
+                    .where('date', '>=', today)
                     .orderBy('date')
                     .startAfter(startAfter)
                     .limit(4)
                 : query = eventsRef
-                .where('date', '>=', today)
+                    .where('date', '>=', today)
                     .orderBy('date')
                     .limit(4);
 

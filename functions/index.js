@@ -103,7 +103,7 @@ exports.userFollowing = functions.firestore
             let follower = {
                 displayName: userData.displayName,
                 photoURL: userData.photoURL || '/assets/user.png',
-                city: userData.city || 'unknown city'
+                city: userData.city || 'Inconnu'
             };
             return admin
                 .firestore()
