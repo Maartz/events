@@ -6,7 +6,6 @@ import {NavLink, Link, withRouter} from 'react-router-dom';
 import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignInMenu from "../Menus/SignInMenu";
 import {openModal} from "../../modals/ModalActions";
-import { Emoji } from 'emoji-mart';
 
 const actions = {
     openModal,
@@ -39,12 +38,7 @@ class NavBar extends Component {
             <Menu borderless inverted fixed="top">
                 <Container>
                     <Menu.Item as={Link} to='/' header>
-                    {/*</Menu.Item>*/}
-                    {/*<Menu.Item as={Link} to='/' header>*/}
                         <img src="/assets/logo.png" alt="logo"/>
-                        {/*Events*/}
-                        {/*<Emoji emoji='date' set='emojione' size={25}/>*/}
-                        {/*<Emoji emoji='call_me_hand' set='apple' size={25}/>*/}
                     </Menu.Item>
                     <Menu.Item as={NavLink} to='/events' name="Events"/>
                     {authenticated && <Menu.Item as={NavLink} to='/people' name="Eventeurs"/>}

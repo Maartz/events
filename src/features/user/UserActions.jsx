@@ -139,7 +139,9 @@ export const setMainPhoto = (photo) =>
                 let eventDocRef = await firestore
                     .collection('events')
                     .doc(eventQuerySnap.docs[i].data().eventId);
+
                 let event = await eventDocRef.get();
+
                 if(event.data().hostUid === user.uid) {
                     batch.update(eventDocRef, {
                         hostPhotoURL: photo.url,
@@ -157,7 +159,7 @@ export const setMainPhoto = (photo) =>
         } catch (e) {
             dispatch(asyncActionError());
             console.log(e);
-            throw new Error('Aïe, impossible de mettre à jour la photo…');
+            throw new Error('Impossible de mettre à jour la photo…');
         }
 
     };
@@ -172,12 +174,12 @@ export const goingToEvent = (event) =>
         dispatch(asyncActionStart());
         const firestore = firebase.firestore();
         const user = firebase.auth().currentUser;
-        const photoURL = getState().firebase.profile.photoURL;
+        const profile = getState().firebase.profile;
         const attendee = {
             going: true,
             joinDate: Date.now(),
-            photoURL: photoURL || '/assets/user.png',
-            displayName: user.displayName,
+            photoURL: profile.photoURL || '/assets/user.png',
+            displayName: profile.displayName,
             host: false
         };
 

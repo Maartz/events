@@ -191,7 +191,7 @@ export const getEventsForDashboard = (lastEvent) =>
             dispatch(asyncActionFinish());
             return querySnap;
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             dispatch(asyncActionError());
         }
     };
@@ -223,7 +223,7 @@ export const addEventComment = (eventId, values, parentId) =>
         try {
             await firebase.push(`event_chat/${eventId}`, newComment)
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toastr.error("Oups!", "Il semble y avoir un problème", {
                 icon: (<Emoji emoji='cold_sweat' size={45} native/>)
             });

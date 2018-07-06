@@ -3,7 +3,6 @@ import {firestoreConnect, isEmpty} from 'react-redux-firebase';
 import {compose} from 'redux';
 import {connect} from 'react-redux'
 import {Grid} from "semantic-ui-react";
-
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import UserDetailedHeader from "./UserDetailedHeader";
 import UserDetailedDescription from "./UserDetailedDescription";
@@ -12,6 +11,8 @@ import UserDetailedPhoto from "./UserDetailedPhoto";
 import UserDetailedEvents from "./UserDetailedEvents";
 import {userDetailledQuery} from "../UserQueries";
 import {followUser, getUserEvents, unFollowUser} from "../UserActions";
+import {toastr} from "react-redux-toastr";
+import {Emoji} from "emoji-mart";
 
 
 /**
@@ -61,8 +62,15 @@ class UserDetailedPage extends Component {
      * @returns {Promise<void>}
      */
     async componentDidMount() {
-        let events = await this.props.getUserEvents(this.props.userUid);
-        console.log(events);
+        let user = await this.props.firestore.get(`users/${this.props.match.params.id}`);
+        if (!user.exists){
+            toastr.error("Ola!", "Cet Eventeurs n'existe pas ou plus.", {
+                icon: (<Emoji emoji='sweat_smile' size={45} native/>)
+            });
+            this.props.history.push('/events');
+        }
+        // let events = await this.props.getUserEvents(this.props.userUid);
+        // console.log(events);
     }
 
     /**
@@ -82,7 +90,7 @@ class UserDetailedPage extends Component {
     render() {
         const {profile, auth, photos, match, requesting, events, eventsLoading, followUser, following, unFollowUser} = this.props;
         const isCurrentUser = auth.uid === match.params.id;
-        const loading = Object.values(requesting).some(a => a === true);
+        const loading = requesting[`users/${match.params.id}`];
         const isFollowing = !isEmpty(following);
 
         if (loading) return <LoadingComponent inverted={true}/>;

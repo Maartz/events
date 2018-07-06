@@ -8,7 +8,13 @@ import Dropzone from 'react-dropzone';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import {uploadProfilImage, deletePhoto, setMainPhoto} from "../UserActions";
+import {Emoji} from "emoji-mart";
 
+/**
+ *
+ * @param auth
+ * @returns {*[]}
+ */
 const query = ({auth}) => {
     return [
         {
@@ -20,12 +26,21 @@ const query = ({auth}) => {
     ]
 }
 
+/**
+ *
+ * @type {{uploadProfilImage: uploadProfilImage, deletePhoto: deletePhoto, setMainPhoto: setMainPhoto}}
+ */
 const actions = {
     uploadProfilImage,
     deletePhoto,
     setMainPhoto
 };
 
+/**
+ *
+ * @param state
+ * @returns {{auth: *, profile: *, photos: *, loading: *}}
+ */
 const mapState = state => ({
     auth: state.firebase.auth,
     profile: state.firebase.profile,
@@ -34,6 +49,10 @@ const mapState = state => ({
 });
 
 class PhotosPage extends Component {
+    /**
+     *
+     * @type {{files: Array, fileName: string, cropResult: null, image: {}}}
+     */
     state = {
         files: [],
         fileName: '',
@@ -41,6 +60,10 @@ class PhotosPage extends Component {
         image: {}
     };
 
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     uploadImage = async () => {
         try {
             await this.props.uploadProfilImage(this.state.image, this.state.fileName);
@@ -52,6 +75,11 @@ class PhotosPage extends Component {
         }
     };
 
+    /**
+     *
+     * @param photo
+     * @returns {Function}
+     */
     handlePhotoDelete = photo => async () => {
         try {
             this.props.deletePhoto(photo);
@@ -61,12 +89,17 @@ class PhotosPage extends Component {
         }
     };
 
+    /**
+     *
+     * @param photo
+     * @returns {Function}
+     */
     handleSetMainPhoto = photo => async () => {
         try {
-            this.props.setMainPhoto(photo);
+            await this.props.setMainPhoto(photo);
         } catch (e) {
             console.log(e);
-            toastr.error('Oups', e.message);
+            toastr.error('Aïe !', e.message, {icon: (<Emoji emoji='sweat_smile' size={45} native/>)});
         }
     };
 
@@ -77,12 +110,17 @@ class PhotosPage extends Component {
         })
     };
 
+    /**
+     *
+     * @param files
+     */
     onDrop = (files) => {
         this.setState({
             files,
             fileName: files[0].name
         })
     };
+
 
     cropImage = () => {
         if (typeof this.refs.cropper.getCroppedCanvas() === 'undefined') {
@@ -98,6 +136,10 @@ class PhotosPage extends Component {
         }, 'image/jpeg');
     };
 
+    /**
+     *
+     * @returns {*}
+     */
     render() {
         const {photos, profile, loading} = this.props;
         let filteredPhotos;

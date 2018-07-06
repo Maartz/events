@@ -9,11 +9,6 @@ import {Link} from 'react-router-dom';
  * @constructor
  */
 const EventDetailedSidebar = ({attendees}) => {
-    /**
-     *
-     * @type {boolean}
-     */
-    const isHost = false;
     return (
         <div className='shadow'>
             <Segment
@@ -30,7 +25,7 @@ const EventDetailedSidebar = ({attendees}) => {
                 <List relaxed divided>
                     {attendees && attendees.map((attendee) => (
                         <Item key={attendee.id} style={{ position: 'relative' }}>
-                            {isHost &&
+                            {attendee.host &&
                             <Label
                                 style={{position: 'absolute'}}
                                 color="orange"

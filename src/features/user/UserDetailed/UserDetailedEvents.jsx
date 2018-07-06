@@ -24,6 +24,7 @@ const panes = [
  * @constructor
  */
 const UserDetailedEvents = ({events, eventsLoading, changeTab}) => {
+    const locale = require('date-fns/locale/fr');
     return (
         <Grid.Column width={12}>
             <Segment attached loading={eventsLoading}>
@@ -46,8 +47,9 @@ const UserDetailedEvents = ({events, eventsLoading, changeTab}) => {
                                 </Card.Header>
                                 <Card.Meta textAlign='center'>
                                     <div>
-                                        {format(event.date && event.date.toDate(), 'DD MMMM YYYY')}
-                                        {format(event.date && event.date.toDate(), 'HH:mm')}
+                                        {format(event.date && event.date.toDate(), 'DD MMM YYYY', {locale: locale})}
+                                        <br/>
+                                        {format(event.date && event.date.toDate(), 'HH:mm', {locale: locale})}
                                     </div>
                                 </Card.Meta>
                             </Card.Content>
