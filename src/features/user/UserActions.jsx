@@ -34,6 +34,35 @@ export const updateProfile = (user) => async (dispatch, getState, {getFirebase})
     }
 };
 
+export const deleteProfile = () => async (dispatch, getState, {getFirestore, getFirebase}) => {
+        const firestore = getFirestore();
+        const firebase = getFirebase();
+        const user = firestore.auth().currentUser;
+        console.log('delete user',user);
+        try {
+            toastr.confirm('Êtes-vous sur ?', {
+                onOk: () => {
+                    firestore.delete(`users/${user.uid}`);
+                    firebase.auth().currentUser.delete()
+                        .then(() => {
+                            console.log('user deleted');
+                            window.location.assign('/');
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+};
+
+
+
+
+
+
 /**
  *
  * @param file

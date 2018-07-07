@@ -51,7 +51,7 @@ const mapState = (state, ownProps) => {
 const actions = {
     getUserEvents,
     followUser,
-    unFollowUser
+    unFollowUser,
 };
 
 
@@ -88,7 +88,18 @@ class UserDetailedPage extends Component {
      * @returns {*}
      */
     render() {
-        const {profile, auth, photos, match, requesting, events, eventsLoading, followUser, following, unFollowUser} = this.props;
+        const {
+            profile,
+            auth,
+            photos,
+            match,
+            requesting,
+            events,
+            eventsLoading,
+            followUser,
+            following,
+            unFollowUser
+        } = this.props;
         const isCurrentUser = auth.uid === match.params.id;
         const loading = requesting[`users/${match.params.id}`];
         const isFollowing = !isEmpty(following);

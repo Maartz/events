@@ -148,6 +148,8 @@ export const getEventsForDashboard = (lastEvent) =>
          */
         const eventsRef = firestore.collection('events');
 
+        // TODO : Add localisation from browser
+
         try {
             dispatch(asyncActionStart());
             let startAfter = lastEvent &&
