@@ -1,8 +1,9 @@
 // Actions creators
-
+import React from 'react'
 import {SubmissionError, reset} from 'redux-form'
 import {toastr} from 'react-redux-toastr'
 import {closeModal} from "../modals/ModalActions";
+import {Emoji} from "emoji-mart";
 
 /**
  *
@@ -36,17 +37,22 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         // Create the user in auth
         let createdUser = await firebase.auth()
             .createUserWithEmailAndPassword(user.email, user.password);
-        // console.log(createdUser);
+        // Define language
+        firebase.auth().useDeviceLanguage();
+        // Send email for verification
+        await createdUser.sendEmailVerification();
+        toastr.success('Houra !', 'Un petit mail viens de partir dans ta boite mail.', {icon: (<Emoji emoji='muscle' size={45} native/>)});
+
         // update the auth profile
         await createdUser.updateProfile({
             displayName: user.displayName
-        })
+        });
         // create a new profile in firestore
         let newUser = {
             displayName: user.displayName,
             createdAt: firestore.FieldValue.serverTimestamp()
         };
-        await firestore.set(`users/${createdUser.uid}`, {...newUser})
+        await firestore.set(`users/${createdUser.uid}`, {...newUser});
         dispatch(closeModal());
     } catch (e) {
         console.log(e);
@@ -101,6 +107,7 @@ export const updatePassword = (creds) => async (dispatch, getState, {getFirebase
         })
     }
 };
+
 
 
 

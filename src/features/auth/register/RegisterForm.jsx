@@ -12,15 +12,17 @@ import SocialLogin from "../SocialLogin/SocialLogin";
  * @type {{registerUser: registerUser}}
  */
 const actions = {
-    registerUser
+    registerUser,
 };
 
 
 const validate = combineValidators({
     displayName: isRequired({message: 'Quel est votre nom, ou bien votre pseudo ?'}),
     email: isRequired({message: 'Il faut rentrer votre e-mail'}),
-    password: isRequired({message: 'Un joli mot de passe d\'au moins 6 caractères, c\'est pour votre sécurité'})
+    password: isRequired({message: 'Un joli mot de passe d\'au moins 8 caractères, c\'est pour votre sécurité'})
 });
+
+
 
 /**
  *
@@ -29,6 +31,7 @@ const validate = combineValidators({
  * @param error
  * @param invalid
  * @param submitting
+ * @param sendEmailForConfirmAccount
  * @returns {*}
  * @constructor
  */
@@ -41,19 +44,19 @@ const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) 
                         name="displayName"
                         type="text"
                         component={TextInput}
-                        placeholder="Known As"
+                        placeholder="Nom d'utilisateur"
                     />
                     <Field
                         name="email"
                         type="text"
                         component={TextInput}
-                        placeholder="Email"
+                        placeholder="E-mail"
                     />
                     <Field
                         name="password"
                         type="password"
                         component={TextInput}
-                        placeholder="Password"
+                        placeholder="Mot de passe d'au moins 8 caractères…"
                     />
                     {error && <div>
                         <Label color='red'>{error}</Label>
@@ -62,7 +65,7 @@ const RegisterForm = ({handleSubmit, registerUser, error, invalid, submitting}) 
 
                     <Button disabled={invalid || submitting} fluid size="large" style={{backgroundColor: '#4e3ef5', color: 'white'}} animated>
                         <Button.Content visible>S'enregistrer</Button.Content>
-                        <Button.Content hidden>
+                        <Button.Content  hidden>
                             <Icon name='right arrow'/>
                         </Button.Content>
                     </Button>

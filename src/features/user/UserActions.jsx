@@ -35,32 +35,28 @@ export const updateProfile = (user) => async (dispatch, getState, {getFirebase})
 };
 
 export const deleteProfile = () => async (dispatch, getState, {getFirestore, getFirebase}) => {
-        const firestore = getFirestore();
-        const firebase = getFirebase();
-        const user = firestore.auth().currentUser;
-        console.log('delete user',user);
-        try {
-            toastr.confirm('Êtes-vous sur ?', {
-                onOk: () => {
-                    firestore.delete(`users/${user.uid}`);
-                    firebase.auth().currentUser.delete()
-                        .then(() => {
-                            console.log('user deleted');
-                            window.location.assign('/');
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        })
-                }
-            });
-        } catch (e) {
-            console.log(e);
-        }
+    const firestore = getFirestore();
+    const firebase = getFirebase();
+    const user = firestore.auth().currentUser;
+    console.log('delete user', user);
+    try {
+        toastr.confirm('Êtes-vous sur ?', {
+            onOk: () => {
+                firestore.delete(`users/${user.uid}`);
+                firebase.auth().currentUser.delete()
+                    .then(() => {
+                        console.log('user deleted');
+                        window.location.assign('/');
+                    })
+                    .catch((e) => {
+                        console.log({e});
+                    })
+            }
+        });
+    } catch (e) {
+        console.log(e);
+    }
 };
-
-
-
-
 
 
 /**
@@ -145,7 +141,7 @@ export const deletePhoto = (photo) =>
  */
 export const setMainPhoto = (photo) =>
     async (dispatch, getState) => {
-    dispatch(asyncActionStart());
+        dispatch(asyncActionStart());
         const firestore = firebase.firestore();
         const user = firebase.auth().currentUser;
         const today = new Date(Date.now());
@@ -154,7 +150,7 @@ export const setMainPhoto = (photo) =>
         try {
             let batch = firestore.batch();
 
-            await batch.update(userDocRef,{
+            await batch.update(userDocRef, {
                 photoURL: photo.url
             });
 
@@ -164,14 +160,14 @@ export const setMainPhoto = (photo) =>
 
             let eventQuerySnap = await eventQuery.get();
 
-            for(let i = 0; i < eventQuerySnap.docs.length; i++) {
+            for (let i = 0; i < eventQuerySnap.docs.length; i++) {
                 let eventDocRef = await firestore
                     .collection('events')
                     .doc(eventQuerySnap.docs[i].data().eventId);
 
                 let event = await eventDocRef.get();
 
-                if(event.data().hostUid === user.uid) {
+                if (event.data().hostUid === user.uid) {
                     batch.update(eventDocRef, {
                         hostPhotoURL: photo.url,
                         [`attendees.${user.uid}.photoURL`]: photo.url
@@ -216,11 +212,11 @@ export const goingToEvent = (event) =>
             let eventDocRef = firestore.collection('events').doc(event.id);
             let eventAttendeeDocRef = firestore.collection('event_attendee').doc(`${event.id}_${user.uid}`);
 
-            await firestore.runTransaction( async transaction => {
-               await transaction.get(eventDocRef);
-               await transaction.update(eventDocRef, {
-                   [`attendees.${user.uid}`]: attendee
-               });
+            await firestore.runTransaction(async transaction => {
+                await transaction.get(eventDocRef);
+                await transaction.update(eventDocRef, {
+                    [`attendees.${user.uid}`]: attendee
+                });
                 await transaction.set(eventAttendeeDocRef, {
                     eventId: event.id,
                     userUid: user.uid,
@@ -319,7 +315,7 @@ export const getUserEvents = (userUid, activeTab) => async (dispatch, getState) 
         let querySnap = await query.get();
         let events = [];
 
-        for(let i = 0; i < querySnap.docs.length; i++){
+        for (let i = 0; i < querySnap.docs.length; i++) {
             let evt = await firestore.collection('events')
                 .doc(querySnap.docs[i]
                     .data().eventId)
@@ -357,7 +353,7 @@ export const followUser = userToFollow => async (dispatch, getState, {getFiresto
                 doc: user.uid,
                 subcollections: [{collection: 'following', doc: userToFollow.id}]
             },
-        following
+            following
         )
     } catch (e) {
         console.log(e);
