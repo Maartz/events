@@ -185,7 +185,7 @@ class EventForm extends Component {
                 />
                 <Grid.Column width={10}>
                     <Segment>
-                        <Header as='h1' style={{color: '#53f'}} content="Details de l'Events "/>
+                        <Header as='h1' style={{color: '#53f'}} content="Détails de l'Events "/>
                         <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
                             <Field
                                 name='title'

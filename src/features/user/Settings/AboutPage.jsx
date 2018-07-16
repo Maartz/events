@@ -68,14 +68,14 @@ const AboutPage = ({ pristine, submitting, handleSubmit, updateProfile }) => {
                     name="occupation"
                     type="text"
                     component={TextInput}
-                    placeholder="Hobbies"
+                    placeholder="Profession"
                 />
                 <Field
                     width={8}
                     name="origin"
                     options={{ types: ['(regions)'] }}
                     component={PlaceInput}
-                    placeholder="Ville de naissance"
+                    placeholder="Lieu de naissance"
                 />
                 <Divider />
                 <Button

@@ -2,6 +2,7 @@ import React from 'react'
 import format from 'date-fns/format';
 import {Grid, Header, Item, List, Segment} from "semantic-ui-react";
 import {Emoji} from "emoji-mart";
+import locale from 'date-fns/locale/fr'
 
 /**
  *
@@ -13,7 +14,7 @@ const UserDetailedDescription = ({profile}) => {
 
     let createdAt;
     if (profile.createdAt) {
-        createdAt = format(profile.createdAt.toDate(), 'D MMMM YYYY');
+        createdAt = format(profile.createdAt.toDate(), 'D MMMM YYYY', {locale: locale});
     }
 
     return (

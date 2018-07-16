@@ -1,0 +1,5 @@
+# Redirect default Netlify subdomain to primary domain
+https://distracted-benz-67e6b3.netlify.com/* https://www.eventsapp.maartz.fr/:splat 301!
+
+# These extra rules are required because HTTPS is not forced
+http://distracted-benz-67e6b3.netlify.com/* https://www.eventsapp.maartz.fr/:splat 301!

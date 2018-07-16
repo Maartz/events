@@ -41,7 +41,12 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         firebase.auth().useDeviceLanguage();
         // Send email for verification
         await createdUser.sendEmailVerification();
-        toastr.success('Houra !', 'Un petit mail viens de partir dans ta boite mail.', {icon: (<Emoji emoji='muscle' size={45} native/>)});
+        toastr.success(
+            'TADA !!',
+            `Un petit mail viens de partir dans ta boite mail
+            Clic vite sur le lien pour valider ton compte.`,
+            {icon: (<Emoji emoji='tada' size={45} native/>)}
+        );
 
         // update the auth profile
         await createdUser.updateProfile({

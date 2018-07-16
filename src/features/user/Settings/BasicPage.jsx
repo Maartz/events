@@ -51,7 +51,7 @@ class BasicPage extends Component {
                         name='dateOfBirth'
                         component={DateInput}
                         placeholder='Date de naissance'
-                        dateFormat='DD-MM-YYYY'
+                        dateFormat='DD/MM/YYYY'
                         showYearDropdown={true}
                         showMonthDropdown={true}
                         dropdownMode='select'
@@ -59,7 +59,7 @@ class BasicPage extends Component {
                     />
                     <Field
                         name='city'
-                        placeholder='Ville'
+                        placeholder='Ville de résidence'
                         options={{types: ['(cities)']}}
                         label='Female'
                         component={PlaceInput}
