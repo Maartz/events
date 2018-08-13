@@ -1,8 +1,19 @@
 import React from 'react';
 import {Segment, Header, Form, Divider, Label, Button, Icon} from 'semantic-ui-react';
 import {Field, reduxForm} from 'redux-form';
-import {combineValidators, matchesField, composeValidators, isRequired} from 'revalidate'
+import {combineValidators, matchesField, composeValidators, isRequired, createValidator} from 'revalidate'
 import TextInput from '../../../app/common/form/TextInput';
+
+
+const isValidEmail = createValidator(
+    message => value => {
+        if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+            return message
+        }
+    },
+    'Adresse email invalide'
+);
+
 
 const validate = combineValidators({
     newPassword1: isRequired({message: 'Entrez un nouveau mot de passe.'}),
@@ -12,7 +23,19 @@ const validate = combineValidators({
     )()
 });
 
-const AccountPage = ({error, invalid, submitting, handleSubmit, updatePassword, providerId, deleteProfile}) => {
+const validateEmail = combineValidators({
+    newEmail1: combineValidators(
+        isRequired({message: 'Entrez votre nouvelle adresse e-mail.'}),
+        isValidEmail
+    )(),
+    newEmail2: composeValidators(
+        isRequired({message: 'Confirmez votre nouvelle adresse e-mail.'}),
+        matchesField('newEmail1')({message: 'Les adresses ne correspondent pas...'}),
+        isValidEmail
+    )()
+});
+
+const AccountPage = ({error, invalid, submitting, handleSubmit, updatePassword, providerId, deleteProfile, updateEmail}) => {
     return (
         <div>
             <Segment>
@@ -21,6 +44,7 @@ const AccountPage = ({error, invalid, submitting, handleSubmit, updatePassword, 
                 <div>
                     <Header color="violet" sub content="Changer de mot de passe"/>
                     <p>Utiliser ce formulaire pour mettre a jour vos paramètres</p>
+
                     <Form onSubmit={handleSubmit(updatePassword)}>
                         <Field
                             width={8}

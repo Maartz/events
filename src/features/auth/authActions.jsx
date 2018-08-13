@@ -127,6 +127,12 @@ export const updatePassword = (creds) => async (dispatch, getState, {getFirebase
     }
 };
 
+
+/**
+ *
+ * @param user
+ * @returns {Function}
+ */
 export const resetPassword = (user) => async (dispatch, getState, {getFirebase}) => {
     const firebase = getFirebase();
     try {
@@ -152,6 +158,30 @@ export const resetPassword = (user) => async (dispatch, getState, {getFirebase})
         console.log(e);
         throw new SubmissionError({
             _error: 'Oups, quelque chose ne va pas.'
+        })
+    }
+};
+
+
+/**
+ *
+ * @param creds
+ * @returns {Function}
+ */
+export const updateEmail = (creds) => async (dispatch, getState, {getFirebase}) => {
+    const firebase = getFirebase();
+    const user = firebase.auth().currentUser;
+    try {
+        await user.updateEmail(creds.newEmail1);
+        await dispatch(reset('account'));
+        toastr.success(
+            'TADA !!',
+            `Votre email est à jour.`,
+            {icon: (<Emoji emoji='tada' size={45} native/>)}
+        );
+    } catch (error) {
+        throw new SubmissionError({
+            _error: 'Échec de mise à jour de l\'e-mail ',
         })
     }
 };
