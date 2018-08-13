@@ -4,12 +4,14 @@ import TestModal from './TestModal'
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import UnauthModal from "./UnauthModal";
+import ResetPasswordModal from "./ResetPasswordModal";
 
 const modalLookup = {
     TestModal,
     LoginModal,
     RegisterModal,
-    UnauthModal
+    UnauthModal,
+    ResetPasswordModal
 };
 
 const mapState = (state) => ({

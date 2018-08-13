@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import {Modal} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 
-import RegisterForm from "../auth/register/RegisterForm";
+import ResetPasswordForm from '../auth/login/ResetPasswordForm';
 import {closeModal} from "./ModalActions";
 
 const actions = {closeModal};
 
-class RegisterModal extends Component {
+class ResetPasswordModal extends Component {
     render() {
         return (
             <Modal
@@ -16,11 +16,11 @@ class RegisterModal extends Component {
                 onClose={this.props.closeModal}
             >
                 <Modal.Header>
-                    Inscription
+                    Réinitialiser le mot de passe
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
-                        <RegisterForm />
+                        <ResetPasswordForm />
                     </Modal.Description>
                 </Modal.Content>
             </Modal>
@@ -28,4 +28,4 @@ class RegisterModal extends Component {
     }
 }
 
-export default connect(null, actions)(RegisterModal);
+export default connect(null, actions)(ResetPasswordModal);

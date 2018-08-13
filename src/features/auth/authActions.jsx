@@ -17,9 +17,9 @@ export const login = (creds) => {
             await firebase.auth().signInWithEmailAndPassword(creds.email, creds.password);
             dispatch(closeModal());
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             throw new SubmissionError({
-                _error: 'Échec de connexion'
+                _error: error
             })
         }
     }
@@ -86,7 +86,17 @@ export const socialLogin = (selectProvider) => async (dispatch, getState, {getFi
                 displayName: user.profile.displayName,
                 photoURL: user.profile.avatarUrl,
                 createdAt: firestore.FieldValue.serverTimestamp()
-            })
+            });
+            // Define language
+            firebase.auth().useDeviceLanguage();
+            // Send email for verification
+            await user.sendEmailVerification();
+            toastr.success(
+                'TADA !!',
+                `Un petit mail viens de partir dans ta boite mail
+                Clic vite sur le lien pour valider ton compte.`,
+                {icon: (<Emoji emoji='tada' size={45} native/>)}
+            );
         }
         dispatch(closeModal());
     } catch (e) {
@@ -105,10 +115,43 @@ export const updatePassword = (creds) => async (dispatch, getState, {getFirebase
     try {
         await user.updatePassword(creds.newPassword1);
         await dispatch(reset('account'));
-        toastr.success('Bravo !', 'Votre mot de passe a été mis à jour.')
+        toastr.success(
+            'TADA !!',
+            `Votre mot de passe est à jour.`,
+            {icon: (<Emoji emoji='tada' size={45} native/>)}
+        );
     } catch (error) {
         throw new SubmissionError({
             _error: 'Échec de mise à jour du mot de passe',
+        })
+    }
+};
+
+export const resetPassword = (user) => async (dispatch, getState, {getFirebase}) => {
+    const firebase = getFirebase();
+    try {
+
+        // Create the user in auth
+        let auth = await firebase.auth();
+
+        // Get submitted email
+        let emailAddress = user.email;
+
+        // Define language
+        firebase.auth().useDeviceLanguage();
+
+        await auth.sendPasswordResetEmail(emailAddress);
+
+        toastr.success(
+            'TADA !!',
+            `Un petit mail viens de partir dans ta boite mail.`,
+            {icon: (<Emoji emoji='tada' size={45} native/>)}
+        );
+
+    } catch (e) {
+        console.log(e);
+        throw new SubmissionError({
+            _error: 'Oups, quelque chose ne va pas.'
         })
     }
 };

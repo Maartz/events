@@ -8,6 +8,8 @@ import {closeModal} from "./ModalActions";
 const actions = {closeModal};
 
 class LoginModal extends Component {
+
+
     render() {
         return (
             <Modal
@@ -16,7 +18,7 @@ class LoginModal extends Component {
                 onClose={this.props.closeModal}
             >
                 <Modal.Header>
-                    Login to Revents
+                    Connexion
                 </Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
