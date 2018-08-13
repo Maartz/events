@@ -14,8 +14,7 @@ const SignInMenu = ({signOut, profile, auth}) => {
                         text="Créer un évènement"
                         icon="plus"
                     />
-                    <Dropdown.Item text="Mes évènements" icon="calendar"/>
-                    <Dropdown.Item text="Mes contatcs" icon="users"/>
+                    <Dropdown.Item as={Link} to={'/people'} text="Mes contatcs" icon="users"/>
                     <Dropdown.Item as={Link} to={`/profile/${auth.uid}`} text="Mon profil" icon="user"/>
                     <Dropdown.Item as={Link} to='/settings' text="Réglages" icon="settings"/>
                     <Dropdown.Item onClick={signOut} text="Déconnexion" icon="power"/>

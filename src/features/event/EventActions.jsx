@@ -3,7 +3,7 @@ import React from 'react'
 import {toastr} from 'react-redux-toastr'
 import {FETCH_EVENTS} from "./EventConstant";
 import {asyncActionStart, asyncActionFinish, asyncActionError} from "../async/asyncActions";
-import {createNewEvent} from "../../app/common/util/helpers";
+import {createNewEvent, getLocation} from "../../app/common/util/helpers";
 import {Emoji} from "emoji-mart";
 import moment from "moment";
 import firebase from '../../app/config/firebase';
@@ -61,7 +61,7 @@ export const updateEvent = (event) => {
     return async (dispatch, getState) => {
         dispatch(asyncActionStart())
         const firestore = firebase.firestore();
-        if(event.date !== getState().firestore.ordered.events[0].date){
+        if (event.date !== getState().firestore.ordered.events[0].date) {
             event.date = moment(event.date).toDate();
         }
         try {
@@ -113,9 +113,10 @@ export const updateEvent = (event) => {
 export const cancelToggle = (cancelled, eventId) =>
     async (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
-        const message = cancelled ? 'Êtes-vous sur ?' : "Cela réactivera l'Events, êtes-vous sur ?";
+        const message = cancelled ? 'Êtes-vous sur de vouloir annuler l\'Events ?' : "Cela réactivera l'Events, êtes-vous sur ?";
+        const toastrConfirmOptions = {okText: 'Confirmer', cancelText: 'Annuler'};
         try {
-            toastr.confirm(message, {
+            toastr.confirm(message, toastrConfirmOptions, {
                 onOk: () => firestore.update(`events/${eventId}`, {
                     cancelled: cancelled
                 })
@@ -152,13 +153,13 @@ export const getEventsForDashboard = (lastEvent) =>
 
         try {
             dispatch(asyncActionStart());
-            let startAfter = lastEvent &&
-                await firestore.collection('events').doc(lastEvent.id).get();
+            let startAfter = lastEvent && await firestore.collection('events').doc(lastEvent.id).get();
             let query;
 
-            lastEvent
-                ? query = eventsRef
+            lastEvent ? query = eventsRef
                     .where('date', '>=', today)
+                    // .where('venueLatLng.lat', '==', locationToCompare.lat)
+                    // .where('venueLatLng.lng', '==', locationToCompare.lng)
                     .orderBy('date')
                     .startAfter(startAfter)
                     .limit(4)
@@ -172,6 +173,7 @@ export const getEventsForDashboard = (lastEvent) =>
              * @type {firebase.firestore.QuerySnapshot}
              */
             let querySnap = await query.get();
+            // console.log(querySnap);
 
             if (querySnap.docs.length === 0) {
                 dispatch(asyncActionFinish());

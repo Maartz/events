@@ -6,7 +6,7 @@ import moment from 'moment';
  * @returns {any[]}
  */
 export const objectToArray = (object) => {
-    if(object) {
+    if (object) {
         return Object.entries(object).map(e => Object.assign(e[1], {id: e[0]}));
     }
 };

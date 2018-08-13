@@ -38,14 +38,15 @@ export const deleteProfile = () => async (dispatch, getState, {getFirestore, get
     const firestore = getFirestore();
     const firebase = getFirebase();
     const user = firestore.auth().currentUser;
-    console.log('delete user', user);
+    const toastrConfirmOptions = { okText : 'Confirmer', cancelText: 'Annuler' };
+    //console.log('delete user', user);
     try {
-        toastr.confirm('Êtes-vous sur ?', {
+        toastr.confirm('Êtes-vous sur ?',  toastrConfirmOptions, {
             onOk: () => {
                 firestore.delete(`users/${user.uid}`);
                 firebase.auth().currentUser.delete()
                     .then(() => {
-                        console.log('user deleted');
+                        // console.log('user deleted');
                         window.location.assign('/');
                     })
                     .catch((e) => {
