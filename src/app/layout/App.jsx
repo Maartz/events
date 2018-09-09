@@ -12,6 +12,8 @@ import HomePage from "../../features/home/HomePage";
 import ModalManager from "../../features/modals/ModalManager";
 import {UserIsAuthenticated} from "../../features/auth/AuthWrapper";
 import FourOhFour from "./FourOhFour";
+import LegalMention from "../../features/legal/LegalMention";
+import ConfidentialityPolitic from "../../features/legal/ConfidentialityPolitic";
 
 class App extends Component {
     /**
@@ -37,6 +39,8 @@ class App extends Component {
                           <Route path='/profile/:id' component={UserIsAuthenticated(UserDetailedPage)}/>
                           <Route path='/settings' component={UserIsAuthenticated(SettingsDashboard)}/>
                           <Route path='/createEvent' component={UserIsAuthenticated(EventForm)}/>
+                          <Route path='/legalMentions' component={LegalMention}/>
+                          <Route path='/confidentialityPolitic' component={ConfidentialityPolitic} />
                           <Route path='/error' component={FourOhFour}/>
                           <Route component={FourOhFour}/>
                       </Switch>

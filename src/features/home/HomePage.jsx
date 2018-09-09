@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Emoji} from "emoji-mart";
 import NavBar from "../nav/NavBar/NavBar";
-import { firebaseConnect } from 'react-redux-firebase'
-import {Grid, Container, Header, Responsive} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+import {firebaseConnect} from 'react-redux-firebase'
+import {Responsive} from 'semantic-ui-react';
 
 
 class HomePage extends Component {
@@ -21,7 +21,7 @@ class HomePage extends Component {
                                 style={{
                                     filter: 'brightness(0.6) opacity(80%)'
                                 }}
-                                //src="https://firebasestorage.googleapis.com/v0/b/revents-206917.appspot.com/o/events.mp4?alt=media&token=8f6ce90b-8470-4220-8007-ae658a5c7ccf"
+                                src="https://firebasestorage.googleapis.com/v0/b/revents-206917.appspot.com/o/events.mp4?alt=media&token=8f6ce90b-8470-4220-8007-ae658a5c7ccf"
                                 muted={true}
                                 loop={true}
                                 autoPlay={true}
@@ -53,19 +53,12 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </div>
-                <Container>
-                    <Header as='h2' textAlign='center' size='huge'>
-                        Avec Events c'est <span style={{marginLeft: '0.2em'}}> <Emoji size={35} emoji='star-struck'/><Emoji size={35} emoji='ok_hand'/> </span>
-                    </Header>
-                    <Grid>
-                        <Grid.Column width={8}>
-                            <p>test</p>
-                        </Grid.Column>
-                        <Grid.Column width={8}>
-                            <p>test</p>
-                        </Grid.Column>
-                    </Grid>
-                </Container>
+                <div>
+                    <footer>
+                        <Link to="/legalMentions"> Mentions Légales</Link>
+                        <Link to="/confidentialityPolitic">Politique de confidentialité</Link>
+                    </footer>
+                </div>
             </div>
         );
     }

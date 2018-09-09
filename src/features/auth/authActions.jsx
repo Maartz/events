@@ -55,7 +55,8 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         // create a new profile in firestore
         let newUser = {
             displayName: user.displayName,
-            createdAt: firestore.FieldValue.serverTimestamp()
+            createdAt: firestore.FieldValue.serverTimestamp(),
+            acceptedConfidentiality: true
         };
         await firestore.set(`users/${createdUser.uid}`, {...newUser});
         dispatch(closeModal());
