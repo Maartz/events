@@ -32,8 +32,8 @@ class App extends Component {
                   <NavBar/>
                   <Container className='main'>
                       <Switch>
-                          <Route path='/events' component={EventDashboard}/>
-                          <Route path='/event/:id' component={EventDetailedPage}/>
+                          <Route path='/events' component={UserIsAuthenticated(EventDashboard)}/>
+                          <Route path='/event/:id' component={UserIsAuthenticated(EventDetailedPage)}/>
                           <Route path='/manage/:id' component={UserIsAuthenticated(EventForm)}/>
                           <Route path='/people' component={UserIsAuthenticated(PeopleDashboard)}/>
                           <Route path='/profile/:id' component={UserIsAuthenticated(UserDetailedPage)}/>
