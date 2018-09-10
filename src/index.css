@@ -17,15 +17,14 @@ body {
     width: 100%;
 }
 
-
 /*home page styles*/
 
 .masthead {
     /*background-image: linear-gradient(*/
-            /*135deg,*/
-            /*rgb(225, 175, 60) 0%,*/
-            /*rgb(212, 56, 139) 69%,*/
-            /*rgb(93, 60, 194) 89%*/
+    /*135deg,*/
+    /*rgb(225, 175, 60) 0%,*/
+    /*rgb(212, 56, 139) 69%,*/
+    /*rgb(93, 60, 194) 89%*/
     /*) !important;*/
     /*background-color: rgb(78, 62, 245)!important;*/
     width: 100%;
@@ -35,7 +34,7 @@ body {
     /*transform: skewY(-12deg);*/
     -webkit-transform-origin: 0;
     transform-origin: 0;
-    background: transparent!important;
+    background: transparent !important;
     /*background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%)!important;*/
 }
 
@@ -79,13 +78,13 @@ body {
 
 .ui.fixed.menu {
     /*background-image: linear-gradient(*/
-            /*135deg,*/
-            /*rgb(225, 175, 60) 0%,*/
-            /*rgb(212, 56, 139) 69%,*/
-            /*rgb(93, 60, 194) 89%*/
+    /*135deg,*/
+    /*rgb(225, 175, 60) 0%,*/
+    /*rgb(212, 56, 139) 69%,*/
+    /*rgb(93, 60, 194) 89%*/
     /*) !important;*/
     /*background-color: rgb(78, 62, 245);*/
-    background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%)!important;
+    background: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%) !important;
     box-shadow: 0 -5px 20px 5px rgba(0, 0, 0, 0.5) !important
 }
 
@@ -103,11 +102,11 @@ body {
     margin-left: 0.5em;
 }
 
-.ui.menu .item>img:not(.ui) {
+.ui.menu .item > img:not(.ui) {
     /*margin-right: 1.5em !important;*/
 }
 
-.ui.menu:not(.vertical) .item>.button {
+.ui.menu:not(.vertical) .item > .button {
     margin-left: 0.5em;
 }
 
@@ -130,11 +129,11 @@ body {
 
 .ui.segments {
     margin-bottom: 25px !important;
-    box-shadow: 0 -2px 18px 6px rgba(34,36,38,.15)!important;
+    box-shadow: 0 -2px 18px 6px rgba(34, 36, 38, .15) !important;
 }
 
 .shadow {
-    box-shadow: 0 -2px 18px 6px rgba(34,36,38,.15)!important;
+    box-shadow: 0 -2px 18px 6px rgba(34, 36, 38, .15) !important;
 }
 
 .video-container {
@@ -144,6 +143,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    z-index: -2;
 }
 
 .video-container video {
@@ -159,5 +159,25 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
+}
+
+.footer {
+    height: auto;
+    background-color: #4e3ef5;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer a {
+    color: #fff;
+    margin: 35px 20px;
+    z-index: 400;
+    display: inline-block;
+}
+
+.footer a:hover {
+    color: #cacaca;
 }

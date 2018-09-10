@@ -3,6 +3,7 @@ import NavBar from "../nav/NavBar/NavBar";
 import {Link} from 'react-router-dom';
 import {firebaseConnect} from 'react-redux-firebase'
 import {Responsive} from 'semantic-ui-react';
+import Footer from "./Footer";
 
 
 class HomePage extends Component {
@@ -11,7 +12,7 @@ class HomePage extends Component {
         const {history} = this.props;
         return (
             <div>
-                <div style={{marginBottom: '285px'}}>
+                <div style={{marginBottom: '250px'}}>
                     <NavBar/>
                     <div>
                         <Responsive
@@ -54,10 +55,7 @@ class HomePage extends Component {
                     </div>
                 </div>
                 <div>
-                    <footer>
-                        <Link to="/legalMentions"> Mentions Légales</Link>
-                        <Link to="/confidentialityPolitic">Politique de confidentialité</Link>
-                    </footer>
+                    <Footer/>
                 </div>
             </div>
         );

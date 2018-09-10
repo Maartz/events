@@ -6,6 +6,7 @@ import DateInput from "../../../app/common/form/DateInput";
 import PlaceInput from "../../../app/common/form/PlaceInput";
 import TextInput from "../../../app/common/form/TextInput";
 import RadioInput from "../../../app/common/form/RadioInput";
+import Footer from "../../home/Footer";
 
 class BasicPage extends Component {
 

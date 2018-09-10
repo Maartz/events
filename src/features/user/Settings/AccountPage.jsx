@@ -107,7 +107,7 @@ const AccountPage = ({error, invalid, submitting, handleSubmit, updatePassword, 
                 <Header dividing size="large" content="Zone de danger"/>
                 <div>
                     <Header color="violet" sub content="Supprimer mon compte"/>
-                    <p>Cliquez sur ce boutton pour quitter Events…</p>
+                    <p>Cliquez sur ce boutton pour quitter Events définitivement, votre compte ne pourra pas être récupérer.</p>
                     <Button
                         onClick={() => deleteProfile()}
                         negative
