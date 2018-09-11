@@ -13,9 +13,15 @@ const UserDetailedHeader = ({profile}) => {
 
     let age;
     if(profile.dateOfBirth){
-        age = differenceInYears(Date.now(), profile.dateOfBirth.toDate());
+        age = differenceInYears(Date.now(), profile.dateOfBirth.toDate()) + " ans, ";
     } else {
         age = <Emoji native size={25} emoji='unicorn_face' />
+    }
+    let location;
+    if(profile.city){
+        location = profile.city;
+    } else {
+        location = 'nulle part ailleurs';
     }
 
     return (
@@ -32,7 +38,8 @@ const UserDetailedHeader = ({profile}) => {
                             <br/>
                             <Header as='h3'>{profile.occupation}</Header>
                             <br/>
-                            <Header as='h3'>{age} ans, { 'de ' + profile.city || 'Entre le clavier et la chaise'}</Header>
+                            <br/>
+                            <Header as='h3'>{age} { 'de ' + location}</Header>
                         </Item.Content>
                     </Item>
                 </Item.Group>

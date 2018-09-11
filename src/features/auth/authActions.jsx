@@ -5,6 +5,23 @@ import {toastr} from 'react-redux-toastr'
 import {closeModal} from "../modals/ModalActions";
 import {Emoji} from "emoji-mart";
 
+
+const errorCode = [
+    {
+        error : "auth/wrong-password",
+        message : "Mot de passe éronné"
+    },
+    {
+        error : "auth/user-not-found",
+        message: "Utilisateur inexistant"
+    },
+    {
+        error: "auth/argument-error",
+        message: "Un des arguments semble être invalide"
+    }
+];
+
+
 /**
  *
  * @param creds
@@ -17,9 +34,9 @@ export const login = (creds) => {
             await firebase.auth().signInWithEmailAndPassword(creds.email, creds.password);
             dispatch(closeModal());
         } catch (error) {
-            // console.log(error);
+            console.log(error);
             throw new SubmissionError({
-                _error: error
+                _error: error.message
             })
         }
     }
@@ -33,6 +50,7 @@ export const login = (creds) => {
 export const registerUser = (user) => async (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
+    firebase.auth().useDeviceLanguage();
     try {
         // Create the user in auth
         let createdUser = await firebase.auth()
@@ -61,9 +79,8 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         await firestore.set(`users/${createdUser.uid}`, {...newUser});
         dispatch(closeModal());
     } catch (e) {
-        console.log(e);
         throw new SubmissionError({
-            _error: 'Oups, quelque chose ne va pas.'
+            _error: e.message
         })
     }
 };
@@ -101,7 +118,10 @@ export const socialLogin = (selectProvider) => async (dispatch, getState, {getFi
         }
         dispatch(closeModal());
     } catch (e) {
-        console.log(e);
+        // console.log(e);
+        throw new SubmissionError({
+            _error: e.message
+        })
     }
 };
 
