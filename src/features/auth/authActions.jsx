@@ -35,9 +35,15 @@ export const login = (creds) => {
             dispatch(closeModal());
         } catch (error) {
             console.log(error);
+            toastr.error(
+                'Oups !!',
+                `1 2 1 2, Je crois qu'il y a un soucis...`,
+                {icon: (<Emoji emoji='sweat_smile' size={45} native/>)}
+            );
             throw new SubmissionError({
                 _error: error.message
             })
+
         }
     }
 };
@@ -61,8 +67,8 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         await createdUser.sendEmailVerification();
         toastr.success(
             'TADA !!',
-            `Un petit mail viens de partir dans ta boite mail
-            Clic vite sur le lien pour valider ton compte.`,
+            `Un petit mail viens de partir dans ta boite mail.
+             Clic vite sur le lien pour valider ton compte.`,
             {icon: (<Emoji emoji='tada' size={45} native/>)}
         );
 
@@ -79,6 +85,11 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         await firestore.set(`users/${createdUser.uid}`, {...newUser});
         dispatch(closeModal());
     } catch (e) {
+        toastr.error(
+            'Oups !!',
+            `Allo Houston ? on a un problème ...`,
+            {icon: (<Emoji emoji='sweat_smile' size={45} native/>)}
+        );
         throw new SubmissionError({
             _error: e.message
         })
